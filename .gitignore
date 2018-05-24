@@ -1,0 +1,8 @@
+*.iml
+.idea
+*.project
+*.classpath
+.settings
+
+api/target
+omod/target
