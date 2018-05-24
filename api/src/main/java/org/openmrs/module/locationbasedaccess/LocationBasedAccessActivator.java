@@ -18,7 +18,6 @@ import org.openmrs.module.ModuleActivator;
 
 public class LocationBasedAccessActivator extends BaseModuleActivator {
 
-
     protected Logger log = LoggerFactory.getLogger(getClass());
 
     /**
@@ -46,6 +45,7 @@ public class LocationBasedAccessActivator extends BaseModuleActivator {
      * @see ModuleActivator#started()
      */
     public void started() {
+        Helper.createAccessLocationPersonAttributeType();
         log.info("Location Based Access Control Module started");
     }
 
