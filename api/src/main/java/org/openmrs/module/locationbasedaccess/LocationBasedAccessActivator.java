@@ -10,7 +10,6 @@
 
 package org.openmrs.module.locationbasedaccess;
 
-import org.openmrs.module.locationbasedaccess.common.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.openmrs.module.BaseModuleActivator;
