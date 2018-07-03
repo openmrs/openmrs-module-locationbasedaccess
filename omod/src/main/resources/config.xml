@@ -12,13 +12,14 @@
 		${project.parent.description}
 	</description>
 	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
-	<require_version>1.9.4</require_version>
+	<require_version>${openMRSVersion}</require_version>
 	<!-- / Module Properties -->
 
 	
 	<!-- Required Modules -->
 	<require_modules>
-
+		<require_module version="${uiframeworkVersion}">org.openmrs.module.uiframework</require_module>
+		<require_module version="${appuiVersion}">org.openmrs.module.appui</require_module>
 	</require_modules>
 	<!-- / Required Modules -->
 	
@@ -46,5 +47,11 @@
 		<file>messages_es.properties</file>
 	</messages>
 	<!-- /Internationalization -->
+
+	<advice>
+		<point>org.openmrs.api.PatientService</point>
+		<class>org.openmrs.module.locationbasedaccess.PatientSearchAdviser</class>
+	</advice>
+
 </module>
 

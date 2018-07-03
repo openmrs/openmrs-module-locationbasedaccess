@@ -22,6 +22,8 @@
 
     <properties>
     	<openMRSVersion>2.0.5</openMRSVersion>
+		<uiframeworkVersion>3.9</uiframeworkVersion>
+		<appuiVersion>1.9</appuiVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
      </properties>
 
@@ -64,7 +66,13 @@
 				<scope>provided</scope>
 			</dependency>
 
-            
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>uiframework-api</artifactId>
+				<version>${uiframeworkVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+
             <!-- For testing -->
             <dependency>
                 <groupId>org.openmrs.test</groupId>
