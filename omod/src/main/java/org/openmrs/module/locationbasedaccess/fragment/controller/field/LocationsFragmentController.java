@@ -5,6 +5,7 @@ import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonAttributeType;
+import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.api.context.Context;
@@ -22,6 +23,11 @@ public class LocationsFragmentController {
         model.addAttribute("activeLocations", activeLocations);
 
         model.addAttribute("selectedLocationUuid", null);
+        Object sessionLocationId = session.getAttribute(UiSessionContext.LOCATION_SESSION_ATTRIBUTE);
+        if(sessionLocationId!=null && StringUtils.isNotBlank(sessionLocationId.toString())) {
+            Location sessionLocation = Context.getLocationService().getLocation(Integer.parseInt(sessionLocationId.toString()));
+            model.addAttribute("selectedLocationUuid", sessionLocation.getUuid());
+        }
         if (patient != null) {
             String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
             if (StringUtils.isNotBlank(locationAttributeUuid)) {
