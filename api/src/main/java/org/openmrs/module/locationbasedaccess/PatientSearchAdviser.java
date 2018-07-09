@@ -30,7 +30,6 @@ import java.util.List;
 public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
     private static final Log log = LogFactory.getLog(PatientSearchAdviser.class);
-    public static final  String LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME = "locationbasedaccess.locationAttributeUuid";
 
     @Override
     public boolean matches(Method method, Class targetClass) {
@@ -49,7 +48,7 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
 
         public Object invoke(MethodInvocation invocation) throws Throwable {
             Integer sessionLocationId = Context.getUserContext().getLocationId();
-            String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
+            String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
             List<Patient> patientList = (List<Patient>) invocation.proceed();
             if (StringUtils.isNotBlank(locationAttributeUuid)) {
                 final PersonAttributeType personAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(locationAttributeUuid);

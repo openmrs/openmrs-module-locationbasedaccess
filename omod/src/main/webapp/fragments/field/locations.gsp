@@ -7,7 +7,9 @@
             </label>
             <select id="${config.formFieldName}" name="${config.formFieldName}">
                 <% activeLocations.each { location -> %>
-                <option value="${location.uuid}">${location.name}</option>
+                <option value="${location.uuid}"
+                ${ ui.encodeHtmlContent(location.uuid==selectedLocationUuid ? ' selected': '') }
+                >${location.name}</option>
                 <% } %>
             </select>
         </p>
