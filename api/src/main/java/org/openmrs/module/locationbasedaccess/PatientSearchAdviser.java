@@ -36,6 +36,9 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
         if (method.getName().equals("getPatients")) {
             return true;
         }
+        else if (method.getName().equals("getPatient")) {
+            return true;
+        }
         return false;
     }
 
@@ -45,31 +48,47 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
     }
 
     private class PatientSearchAdvise implements MethodInterceptor {
-
         public Object invoke(MethodInvocation invocation) throws Throwable {
             Integer sessionLocationId = Context.getUserContext().getLocationId();
             String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
-            List<Patient> patientList = (List<Patient>) invocation.proceed();
+            Object object = invocation.proceed();
             if (StringUtils.isNotBlank(locationAttributeUuid)) {
                 final PersonAttributeType personAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(locationAttributeUuid);
                 if (sessionLocationId != null) {
                     String sessionLocationUuid = Context.getLocationService().getLocation(sessionLocationId).getUuid();
-
-                    for (Iterator<Patient> iterator = patientList.iterator(); iterator.hasNext(); ) {
-                        Patient patient = iterator.next();
-                        PersonAttribute personAttribute = patient.getAttribute(personAttributeType);
-                        if ((personAttribute == null && !Context.getAuthenticatedUser().isSuperUser()) ||
-                            personAttribute !=null && !compare(personAttribute.getValue(), sessionLocationUuid)) {
-                            iterator.remove();
+                    if(object instanceof List) {
+                        List<Patient> patientList = (List<Patient>) object;
+                        for (Iterator<Patient> iterator = patientList.iterator(); iterator.hasNext(); ) {
+                            if(!doesPatientBelongToGivenLocation(iterator.next(), personAttributeType, sessionLocationUuid)) {
+                                iterator.remove();
+                            }
+                        }
+                        object = patientList;
+                    }
+                    else if(object instanceof Patient) {
+                        if(!doesPatientBelongToGivenLocation((Patient)object, personAttributeType, sessionLocationUuid)) {
+                            object = null;
                         }
                     }
                 } else {
-                    // If the sessionLocationId is null, then return a empty list
                     log.debug("Search Patient : Null Session Location in the UserContext");
-                    return new ArrayList<Patient>();
+                    if(object instanceof Patient) {
+                        // If the sessionLocationId is null, then return null for a Patient instance
+                        return null;
+                    }
+                    else {
+                        // If the sessionLocationId is null, then return a empty list
+                        return new ArrayList<Patient>();
+                    }
                 }
             }
-            return patientList;
+            return object;
+        }
+
+        private Boolean doesPatientBelongToGivenLocation(Patient patient, PersonAttributeType personAttributeType, String sessionLocationUuid) {
+            PersonAttribute personAttribute = patient.getAttribute(personAttributeType);
+            return ((personAttribute == null && Context.getAuthenticatedUser().isSuperUser()) ||
+                    personAttribute != null && compare(personAttribute.getValue(), sessionLocationUuid));
         }
 
         private Boolean compare(String value1, String value2) {
