@@ -39,6 +39,9 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
         else if (method.getName().equals("getPatient")) {
             return true;
         }
+        else if (method.getName().equals("getPatientByUuid")) {
+            return true;
+        }
         return false;
     }
 
