@@ -19,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.Patient;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonAttributeType;
+import org.openmrs.Role;
 import org.openmrs.api.context.Context;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
@@ -39,6 +40,9 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
         else if (method.getName().equals("getPatient")) {
             return true;
         }
+        else if (method.getName().equals("getPatientByUuid")) {
+            return true;
+        }
         return false;
     }
 
@@ -48,8 +52,22 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
     }
 
     private class PatientSearchAdvise implements MethodInterceptor {
-        public Object invoke(MethodInvocation invocation) throws Throwable {
+        public synchronized Object invoke(MethodInvocation invocation) throws Throwable {
+            log.error("Method Name : " + invocation.getMethod().getName());
             Integer sessionLocationId = Context.getUserContext().getLocationId();
+            if(Context.getUserContext() == null) {
+                 log.error("UserContext : null");
+            }
+            else {
+                log.error("UserContext : Not null");
+                log.error("UserContext : " + Context.getUserContext().getLocation());
+                log.error("UserContext : " + Context.getUserContext().getAuthenticatedUser());
+                log.error("UserContext : " + Context.getUserContext().getAllRoles().size());
+                for(Role role : Context.getUserContext().getAllRoles()) {
+                    log.error("UserContext role : " + role);
+                }
+            }
+
             String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
             Object object = invocation.proceed();
             if (StringUtils.isNotBlank(locationAttributeUuid)) {
@@ -58,26 +76,32 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
                     String sessionLocationUuid = Context.getLocationService().getLocation(sessionLocationId).getUuid();
                     if(object instanceof List) {
                         List<Patient> patientList = (List<Patient>) object;
+                        log.error("Patient List : " + patientList.size());
                         for (Iterator<Patient> iterator = patientList.iterator(); iterator.hasNext(); ) {
                             if(!doesPatientBelongToGivenLocation(iterator.next(), personAttributeType, sessionLocationUuid)) {
                                 iterator.remove();
                             }
                         }
                         object = patientList;
+                        log.error("Patient List : " + patientList.size());
                     }
                     else if(object instanceof Patient) {
+                        log.error("Patient : " + ((Patient)object).getFamilyName());
                         if(!doesPatientBelongToGivenLocation((Patient)object, personAttributeType, sessionLocationUuid)) {
                             object = null;
+                            log.error("Patient : removed");
                         }
                     }
                 } else {
                     log.debug("Search Patient : Null Session Location in the UserContext");
                     if(object instanceof Patient) {
                         // If the sessionLocationId is null, then return null for a Patient instance
+                        log.error("Patient : " + ((Patient)object).getFamilyName());
                         return null;
                     }
                     else {
                         // If the sessionLocationId is null, then return a empty list
+                        log.error("Patient List : Null");
                         return new ArrayList<Patient>();
                     }
                 }
