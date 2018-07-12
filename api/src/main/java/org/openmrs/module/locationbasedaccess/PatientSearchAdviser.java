@@ -20,6 +20,7 @@ import org.openmrs.Patient;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
+import org.openmrs.api.context.Daemon;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import java.lang.reflect.Method;
@@ -52,9 +53,12 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
 
     private class PatientSearchAdvise implements MethodInterceptor {
         public Object invoke(MethodInvocation invocation) throws Throwable {
+            Object object = invocation.proceed();
+            if (Daemon.isDaemonUser(Context.getAuthenticatedUser())) {
+                return object;
+            }
             Integer sessionLocationId = Context.getUserContext().getLocationId();
             String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
-            Object object = invocation.proceed();
             if (StringUtils.isNotBlank(locationAttributeUuid)) {
                 final PersonAttributeType personAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(locationAttributeUuid);
                 if (sessionLocationId != null) {
