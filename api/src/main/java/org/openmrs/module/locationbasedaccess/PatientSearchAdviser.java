@@ -54,7 +54,7 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
     private class PatientSearchAdvise implements MethodInterceptor {
         public Object invoke(MethodInvocation invocation) throws Throwable {
             Object object = invocation.proceed();
-            if (Daemon.isDaemonUser(Context.getAuthenticatedUser())) {
+            if (Daemon.isDaemonUser(Context.getAuthenticatedUser()) || Context.getAuthenticatedUser().isSuperUser()) {
                 return object;
             }
             Integer sessionLocationId = Context.getUserContext().getLocationId();
@@ -94,8 +94,7 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
 
         private Boolean doesPatientBelongToGivenLocation(Patient patient, PersonAttributeType personAttributeType, String sessionLocationUuid) {
             PersonAttribute personAttribute = patient.getAttribute(personAttributeType);
-            return ((personAttribute == null && Context.getAuthenticatedUser().isSuperUser()) ||
-                    personAttribute != null && compare(personAttribute.getValue(), sessionLocationUuid));
+            return (personAttribute != null && compare(personAttribute.getValue(), sessionLocationUuid));
         }
 
         private Boolean compare(String value1, String value2) {
