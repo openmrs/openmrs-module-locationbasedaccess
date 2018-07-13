@@ -53,6 +53,9 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
 
     private class PatientSearchAdvise implements MethodInterceptor {
         public Object invoke(MethodInvocation invocation) throws Throwable {
+            if (Context.getAuthenticatedUser() == null) {
+                return null;
+            }
             Object object = invocation.proceed();
             if (Daemon.isDaemonUser(Context.getAuthenticatedUser()) || Context.getAuthenticatedUser().isSuperUser()) {
                 return object;
