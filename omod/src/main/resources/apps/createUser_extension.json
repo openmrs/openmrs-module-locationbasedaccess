@@ -1,0 +1,22 @@
+[
+  {
+    "id": "${project.parent.groupId}.${project.parent.artifactId}.userAccount.userPropertyEditLocation",
+    "extensionPointId": "userAccount.userPropertyEditFragment",
+    "extensionParams": {
+      "type": "userProperty",
+      "userPropertyName" : "locationUuid",
+      "provider": "${project.parent.artifactId}",
+      "fragment": "manageAccount/addLocation"
+    }
+  },
+  {
+    "id": "${project.parent.groupId}.${project.parent.artifactId}.userAccount.userPropertyViewLocation",
+    "extensionPointId": "userAccount.userPropertyViewFragment",
+    "extensionParams": {
+      "type": "userProperty",
+      "userPropertyName" : "locationUuid",
+      "provider": "${project.parent.artifactId}",
+      "fragment": "manageAccount/viewUserLocation"
+    }
+  }
+]
