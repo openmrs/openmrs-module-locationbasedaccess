@@ -18,9 +18,9 @@ public class ViewUserLocationFragmentController {
             if (user != null) {
                 String locationProperty = user.getUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
                 if (StringUtils.isNotBlank(locationProperty)) {
-                    Location patientLocation = Context.getLocationService().getLocationByUuid(locationProperty);
-                    if (patientLocation != null) {
-                        model.addAttribute("selectedUserLocationName", patientLocation.getName());
+                    Location userLocation = Context.getLocationService().getLocationByUuid(locationProperty);
+                    if (userLocation != null) {
+                        model.addAttribute("selectedUserLocationName", userLocation.getName());
                     }
                 }
             }
