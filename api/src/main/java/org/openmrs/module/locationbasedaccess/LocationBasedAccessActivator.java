@@ -10,6 +10,8 @@
 
 package org.openmrs.module.locationbasedaccess;
 
+import org.apache.commons.lang.StringUtils;
+import org.openmrs.api.context.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.openmrs.module.BaseModuleActivator;
@@ -45,6 +47,18 @@ public class LocationBasedAccessActivator extends BaseModuleActivator {
      * @see ModuleActivator#started()
      */
     public void started() {
+        String locationUserPropertyName = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.REF_APP_LOCATION_USER_PROPERTY_NAME);
+        if(StringUtils.isBlank(locationUserPropertyName)) {
+            Context.getAdministrationService().setGlobalProperty(LocationBasedAccessConstants.REF_APP_LOCATION_USER_PROPERTY_NAME,
+                    LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
+            if(log.isDebugEnabled()) {
+                log.debug("RefApp Location global property created with value - " + LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
+            }
+        }
+        else if(StringUtils.isNotBlank(locationUserPropertyName) && !locationUserPropertyName.equals(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME)) {
+            log.warn("RefApp Location global property already exist in the system with different value(" + locationUserPropertyName +
+                    "). Exiting from creating new global property with the value " + LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
+        }
         log.info("Location Based Access Control Module started");
     }
 
