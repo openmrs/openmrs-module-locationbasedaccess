@@ -42,6 +42,9 @@ public class PersonSearchAdviser extends StaticMethodMatcherPointcutAdvisor impl
         else if (method.getName().equals("getPersonByUuid")) {
             return true;
         }
+        else if (method.getName().equals("getSimilarPeople")) {
+            return true;
+        }
         return false;
     }
 
