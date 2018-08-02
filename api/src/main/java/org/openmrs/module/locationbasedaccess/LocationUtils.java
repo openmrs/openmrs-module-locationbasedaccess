@@ -11,6 +11,8 @@
 package org.openmrs.module.locationbasedaccess;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.Person;
 import org.openmrs.PersonAttribute;
@@ -18,6 +20,8 @@ import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
 
 public class LocationUtils {
+
+    private static final Log log = LogFactory.getLog(PersonSearchAdviser.class);
 
     public static Location getPersonLocation(Person person) {
         String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
@@ -30,5 +34,14 @@ public class LocationUtils {
             }
         }
         return null;
+    }
+
+    public static Boolean doesPersonBelongToGivenLocation(Person person, PersonAttributeType personAttributeType, String sessionLocationUuid) {
+        PersonAttribute personAttribute = person.getAttribute(personAttributeType);
+        return (personAttribute != null && compare(personAttribute.getValue(), sessionLocationUuid));
+    }
+
+    public static Boolean compare(String value1, String value2) {
+        return (StringUtils.isNotBlank(value1) && StringUtils.isNotBlank(value2)) && value1.equals(value2);
     }
 }
