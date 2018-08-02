@@ -52,6 +52,10 @@
 		<point>org.openmrs.api.PatientService</point>
 		<class>org.openmrs.module.locationbasedaccess.PatientSearchAdviser</class>
 	</advice>
+	<advice>
+		<point>org.openmrs.api.PersonService</point>
+		<class>org.openmrs.module.locationbasedaccess.PersonSearchAdviser</class>
+	</advice>
 
 </module>
 
