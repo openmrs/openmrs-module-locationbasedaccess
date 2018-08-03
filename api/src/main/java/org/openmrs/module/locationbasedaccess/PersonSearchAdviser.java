@@ -71,15 +71,20 @@ public class PersonSearchAdviser extends StaticMethodMatcherPointcutAdvisor impl
                     if(object instanceof List) {
                         List<Person> personList = (List<Person>) object;
                         for (Iterator<Person> iterator = personList.iterator(); iterator.hasNext(); ) {
-                            if(!LocationUtils.doesPersonBelongToGivenLocation(iterator.next(), personAttributeType, sessionLocationUuid)) {
-                                iterator.remove();
+                            Person thisPerson = iterator.next();
+                            if(!LocationUtils.doesPersonBelongToGivenLocation(thisPerson, personAttributeType, sessionLocationUuid)) {
+                                if(!LocationUtils.doesUsersForPersonBelongToGivenLocation(thisPerson, sessionLocationUuid)) {
+                                    iterator.remove();
+                                }
                             }
                         }
                         object = personList;
                     }
                     else if(object instanceof Person) {
                         if(!LocationUtils.doesPersonBelongToGivenLocation((Person)object, personAttributeType, sessionLocationUuid)) {
-                            object = null;
+                            if(!LocationUtils.doesUsersForPersonBelongToGivenLocation((Person)object, sessionLocationUuid)) {
+                                object = null;
+                            }
                         }
                     }
                 } else {

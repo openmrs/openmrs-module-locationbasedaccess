@@ -17,7 +17,10 @@ import org.openmrs.Location;
 import org.openmrs.Person;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonAttributeType;
+import org.openmrs.User;
 import org.openmrs.api.context.Context;
+import java.util.Iterator;
+import java.util.List;
 
 public class LocationUtils {
 
@@ -39,6 +42,21 @@ public class LocationUtils {
     public static Boolean doesPersonBelongToGivenLocation(Person person, PersonAttributeType personAttributeType, String sessionLocationUuid) {
         PersonAttribute personAttribute = person.getAttribute(personAttributeType);
         return (personAttribute != null && compare(personAttribute.getValue(), sessionLocationUuid));
+    }
+
+    public static Boolean doesUserBelongToGivenLocation(User user, String sessionLocationUuid) {
+        String userLocationProperty = user.getUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
+        return (userLocationProperty != null && compare(userLocationProperty, sessionLocationUuid));
+    }
+
+    public static Boolean doesUsersForPersonBelongToGivenLocation(Person person, String sessionLocationUuid) {
+        List<User> userList = Context.getUserService().getUsersByPerson(person, false);
+        for (Iterator<User> iterator = userList.iterator(); iterator.hasNext(); ) {
+            if(LocationUtils.doesUserBelongToGivenLocation(iterator.next(), sessionLocationUuid)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static Boolean compare(String value1, String value2) {
