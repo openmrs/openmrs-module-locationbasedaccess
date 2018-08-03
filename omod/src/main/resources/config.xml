@@ -60,5 +60,9 @@
 		<point>org.openmrs.api.EncounterService</point>
 		<class>org.openmrs.module.locationbasedaccess.EncounterSearchAdviser</class>
 	</advice>
+	<advice>
+		<point>org.openmrs.api.UserService</point>
+		<class>org.openmrs.module.locationbasedaccess.UserSearchAdviser</class>
+	</advice>
 </module>
 
