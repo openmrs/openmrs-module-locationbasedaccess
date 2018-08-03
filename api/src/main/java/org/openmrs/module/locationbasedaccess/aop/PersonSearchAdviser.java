@@ -8,7 +8,7 @@
  * graphic logo is a trademark of OpenMRS Inc.
  */
 
-package org.openmrs.module.locationbasedaccess;
+package org.openmrs.module.locationbasedaccess.aop;
 
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInvocation;
@@ -16,11 +16,12 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Patient;
-import org.openmrs.PersonAttribute;
+import org.openmrs.Person;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.Daemon;
+import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
+import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import java.lang.reflect.Method;
@@ -28,19 +29,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
+public class PersonSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
-    private static final Log log = LogFactory.getLog(PatientSearchAdviser.class);
+    private static final Log log = LogFactory.getLog(PersonSearchAdviser.class);
 
     @Override
     public boolean matches(Method method, Class targetClass) {
-        if (method.getName().equals("getPatients")) {
+        if (method.getName().equals("getPeople")) {
             return true;
         }
-        else if (method.getName().equals("getPatient")) {
+        else if (method.getName().equals("getPerson")) {
             return true;
         }
-        else if (method.getName().equals("getPatientByUuid")) {
+        else if (method.getName().equals("getPersonByUuid")) {
+            return true;
+        }
+        else if (method.getName().equals("getSimilarPeople")) {
             return true;
         }
         return false;
@@ -48,10 +52,10 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
 
     @Override
     public Advice getAdvice() {
-        return new PatientSearchAdvise();
+        return new PersonSearchAdvise();
     }
 
-    private class PatientSearchAdvise implements MethodInterceptor {
+    private class PersonSearchAdvise implements MethodInterceptor {
         public Object invoke(MethodInvocation invocation) throws Throwable {
             if (Context.getAuthenticatedUser() == null) {
                 return null;
@@ -67,28 +71,33 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
                 if (sessionLocationId != null) {
                     String sessionLocationUuid = Context.getLocationService().getLocation(sessionLocationId).getUuid();
                     if(object instanceof List) {
-                        List<Patient> patientList = (List<Patient>) object;
-                        for (Iterator<Patient> iterator = patientList.iterator(); iterator.hasNext(); ) {
-                            if(!LocationUtils.doesPersonBelongToGivenLocation(iterator.next().getPerson(), personAttributeType, sessionLocationUuid)) {
-                                iterator.remove();
+                        List<Person> personList = (List<Person>) object;
+                        for (Iterator<Person> iterator = personList.iterator(); iterator.hasNext(); ) {
+                            Person thisPerson = iterator.next();
+                            if(!LocationUtils.doesPersonBelongToGivenLocation(thisPerson, personAttributeType, sessionLocationUuid)) {
+                                if(!LocationUtils.doesUsersForPersonBelongToGivenLocation(thisPerson, sessionLocationUuid)) {
+                                    iterator.remove();
+                                }
                             }
                         }
-                        object = patientList;
+                        object = personList;
                     }
-                    else if(object instanceof Patient) {
-                        if(!LocationUtils.doesPersonBelongToGivenLocation(((Patient)object).getPerson(), personAttributeType, sessionLocationUuid)) {
-                            object = null;
+                    else if(object instanceof Person) {
+                        if(!LocationUtils.doesPersonBelongToGivenLocation((Person)object, personAttributeType, sessionLocationUuid)) {
+                            if(!LocationUtils.doesUsersForPersonBelongToGivenLocation((Person)object, sessionLocationUuid)) {
+                                object = null;
+                            }
                         }
                     }
                 } else {
-                    log.debug("Search Patient : Null Session Location in the UserContext");
-                    if(object instanceof Patient) {
-                        // If the sessionLocationId is null, then return null for a Patient instance
+                    log.debug("Search Person : Null Session Location in the UserContext");
+                    if(object instanceof Person) {
+                        // If the sessionLocationId is null, then return null for a Person instance
                         return null;
                     }
                     else {
                         // If the sessionLocationId is null, then return a empty list
-                        return new ArrayList<Patient>();
+                        return new ArrayList<Person>();
                     }
                 }
             }

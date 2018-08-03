@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.module.appui.UiSessionContext;
-import org.openmrs.module.locationbasedaccess.LocationUtils;
+import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.api.context.Context;
 import org.springframework.web.bind.annotation.RequestParam;
