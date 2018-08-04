@@ -20,6 +20,7 @@
 	<require_modules>
 		<require_module version="${uiframeworkVersion}">org.openmrs.module.uiframework</require_module>
 		<require_module version="${appuiVersion}">org.openmrs.module.appui</require_module>
+		<require_module version="${reportingcompatibility}">org.openmrs.module.reportingcompatibility</require_module>
 	</require_modules>
 	<!-- / Required Modules -->
 	
@@ -63,6 +64,14 @@
 	<advice>
 		<point>org.openmrs.api.UserService</point>
 		<class>org.openmrs.module.locationbasedaccess.UserSearchAdviser</class>
+	</advice>
+	<advice>
+		<point>org.openmrs.module.reportingcompatibility.service.ReportingCompatibilityService</point>
+		<class>org.openmrs.module.locationbasedaccess.ReportSearchAdviser</class>
+	</advice>
+	<advice>
+		<point>org.openmrs.module.reportingcompatibility.service.ReportService</point>
+		<class>org.openmrs.module.locationbasedaccess.ReportSearchAdviser</class>
 	</advice>
 </module>
 

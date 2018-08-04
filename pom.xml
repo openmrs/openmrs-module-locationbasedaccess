@@ -24,6 +24,7 @@
     	<openMRSVersion>2.0.5</openMRSVersion>
 		<uiframeworkVersion>3.9</uiframeworkVersion>
 		<appuiVersion>1.9.0-SNAPSHOT</appuiVersion>
+		<reportingcompatibility>2.0.6-SNAPSHOT</reportingcompatibility>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
      </properties>
 
@@ -76,6 +77,12 @@
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>appui-omod</artifactId>
 				<version>${appuiVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>reportingcompatibility-api</artifactId>
+				<version>${reportingcompatibility}</version>
 				<scope>provided</scope>
 			</dependency>
 
