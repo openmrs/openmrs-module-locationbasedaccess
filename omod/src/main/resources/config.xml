@@ -50,19 +50,19 @@
 
 	<advice>
 		<point>org.openmrs.api.PatientService</point>
-		<class>org.openmrs.module.locationbasedaccess.PatientSearchAdviser</class>
+		<class>org.openmrs.module.locationbasedaccess.aop.PatientSearchAdviser</class>
 	</advice>
 	<advice>
 		<point>org.openmrs.api.PersonService</point>
-		<class>org.openmrs.module.locationbasedaccess.PersonSearchAdviser</class>
+		<class>org.openmrs.module.locationbasedaccess.aop.PersonSearchAdviser</class>
 	</advice>
 	<advice>
 		<point>org.openmrs.api.EncounterService</point>
-		<class>org.openmrs.module.locationbasedaccess.EncounterSearchAdviser</class>
+		<class>org.openmrs.module.locationbasedaccess.aop.EncounterSearchAdviser</class>
 	</advice>
 	<advice>
 		<point>org.openmrs.api.UserService</point>
-		<class>org.openmrs.module.locationbasedaccess.UserSearchAdviser</class>
+		<class>org.openmrs.module.locationbasedaccess.aop.UserSearchAdviser</class>
 	</advice>
 </module>
 

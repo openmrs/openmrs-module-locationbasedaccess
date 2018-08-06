@@ -8,7 +8,7 @@
  * graphic logo is a trademark of OpenMRS Inc.
  */
 
-package org.openmrs.module.locationbasedaccess;
+package org.openmrs.module.locationbasedaccess.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -19,12 +19,11 @@ import org.openmrs.PersonAttribute;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
 import java.util.Iterator;
 import java.util.List;
 
 public class LocationUtils {
-
-    private static final Log log = LogFactory.getLog(PersonSearchAdviser.class);
 
     public static Location getPersonLocation(Person person) {
         String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
