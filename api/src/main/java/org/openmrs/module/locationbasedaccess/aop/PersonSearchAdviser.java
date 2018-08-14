@@ -18,6 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Person;
 import org.openmrs.PersonAttributeType;
+import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.Daemon;
 import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
@@ -57,11 +58,12 @@ public class PersonSearchAdviser extends StaticMethodMatcherPointcutAdvisor impl
 
     private class PersonSearchAdvise implements MethodInterceptor {
         public Object invoke(MethodInvocation invocation) throws Throwable {
-            if (Context.getAuthenticatedUser() == null) {
+            User authenticatedUser = Context.getAuthenticatedUser();
+            if (authenticatedUser == null) {
                 return null;
             }
             Object object = invocation.proceed();
-            if (Daemon.isDaemonUser(Context.getAuthenticatedUser()) || Context.getAuthenticatedUser().isSuperUser()) {
+            if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
                 return object;
             }
             Integer sessionLocationId = Context.getUserContext().getLocationId();
@@ -74,18 +76,23 @@ public class PersonSearchAdviser extends StaticMethodMatcherPointcutAdvisor impl
                         List<Person> personList = (List<Person>) object;
                         for (Iterator<Person> iterator = personList.iterator(); iterator.hasNext(); ) {
                             Person thisPerson = iterator.next();
-                            if(!LocationUtils.doesPersonBelongToGivenLocation(thisPerson, personAttributeType, sessionLocationUuid)) {
-                                if(!LocationUtils.doesUsersForPersonBelongToGivenLocation(thisPerson, sessionLocationUuid)) {
-                                    iterator.remove();
+                            if (!LocationUtils.doesPersonBelongToGivenLocation(thisPerson, personAttributeType, sessionLocationUuid)) {
+                                if (!LocationUtils.doesUsersForPersonBelongToGivenLocation(thisPerson, sessionLocationUuid)) {
+                                    if (!thisPerson.getUuid().equals(authenticatedUser.getPerson().getUuid())) {
+                                        iterator.remove();
+                                    }
                                 }
                             }
                         }
                         object = personList;
                     }
                     else if(object instanceof Person) {
-                        if(!LocationUtils.doesPersonBelongToGivenLocation((Person)object, personAttributeType, sessionLocationUuid)) {
-                            if(!LocationUtils.doesUsersForPersonBelongToGivenLocation((Person)object, sessionLocationUuid)) {
-                                object = null;
+                        Person thisPerson = (Person)object;
+                        if (!LocationUtils.doesPersonBelongToGivenLocation(thisPerson, personAttributeType, sessionLocationUuid)) {
+                            if (!LocationUtils.doesUsersForPersonBelongToGivenLocation(thisPerson, sessionLocationUuid)) {
+                                if (!thisPerson.getUuid().equals(authenticatedUser.getPerson().getUuid())) {
+                                    object = null;
+                                }
                             }
                         }
                     }
