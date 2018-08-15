@@ -74,12 +74,7 @@ public class LocationSearchAdviser extends StaticMethodMatcherPointcutAdvisor im
             }
 
             if(restrictedGetMethodNames.contains(method.getName())) {
-                String accessibleLocationUuid = authenticatedUser.getUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
-                if (StringUtils.isBlank(accessibleLocationUuid)) {
-                    Integer sessionLocationId = Context.getUserContext().getLocationId();
-                    accessibleLocationUuid = Context.getLocationService().getLocation(sessionLocationId).getUuid();
-                }
-
+                String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
                 if (accessibleLocationUuid != null) {
                     if(object instanceof List) {
                         List<Location> locationList = (List<Location>) object;
