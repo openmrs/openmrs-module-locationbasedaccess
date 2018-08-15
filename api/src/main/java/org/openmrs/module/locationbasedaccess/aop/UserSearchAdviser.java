@@ -71,14 +71,13 @@ public class UserSearchAdviser extends StaticMethodMatcherPointcutAdvisor implem
             if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
                 return object;
             }
-            Integer sessionLocationId = Context.getUserContext().getLocationId();
-            if (sessionLocationId != null) {
-                String sessionLocationUuid = Context.getLocationService().getLocation(sessionLocationId).getUuid();
+            String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
+            if (accessibleLocationUuid != null) {
                 if(object instanceof List) {
                     List<User> userList = (List<User>) object;
                     for (Iterator<User> iterator = userList.iterator(); iterator.hasNext(); ) {
                         User user = iterator.next();
-                        if (!LocationUtils.doesUserBelongToGivenLocation(user, sessionLocationUuid)) {
+                        if (!LocationUtils.doesUserBelongToGivenLocation(user, accessibleLocationUuid)) {
                             if (!authenticatedUser.getUuid().equals(user.getUuid())) {
                                 iterator.remove();
                             }
@@ -88,7 +87,7 @@ public class UserSearchAdviser extends StaticMethodMatcherPointcutAdvisor implem
                 }
                 else if(object instanceof User) {
                     User user = (User) object;
-                    if (!LocationUtils.doesUserBelongToGivenLocation(user, sessionLocationUuid)) {
+                    if (!LocationUtils.doesUserBelongToGivenLocation(user, accessibleLocationUuid)) {
                         if (!authenticatedUser.getUuid().equals(user.getUuid())) {
                             object = null;
                         }
