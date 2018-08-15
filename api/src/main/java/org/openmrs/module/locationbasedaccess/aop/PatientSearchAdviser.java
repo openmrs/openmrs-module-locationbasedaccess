@@ -18,6 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Patient;
 import org.openmrs.PersonAttributeType;
+import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.Daemon;
 import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
@@ -54,30 +55,31 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
 
     private class PatientSearchAdvise implements MethodInterceptor {
         public Object invoke(MethodInvocation invocation) throws Throwable {
-            if (Context.getAuthenticatedUser() == null) {
+            User authenticatedUser = Context.getAuthenticatedUser();
+            if (authenticatedUser == null) {
                 return null;
             }
             Object object = invocation.proceed();
-            if (Daemon.isDaemonUser(Context.getAuthenticatedUser()) || Context.getAuthenticatedUser().isSuperUser()) {
+            if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
                 return object;
             }
-            Integer sessionLocationId = Context.getUserContext().getLocationId();
+
+            String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
             String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
             if (StringUtils.isNotBlank(locationAttributeUuid)) {
                 final PersonAttributeType personAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(locationAttributeUuid);
-                if (sessionLocationId != null) {
-                    String sessionLocationUuid = Context.getLocationService().getLocation(sessionLocationId).getUuid();
+                if (accessibleLocationUuid != null) {
                     if(object instanceof List) {
                         List<Patient> patientList = (List<Patient>) object;
                         for (Iterator<Patient> iterator = patientList.iterator(); iterator.hasNext(); ) {
-                            if(!LocationUtils.doesPersonBelongToGivenLocation(iterator.next().getPerson(), personAttributeType, sessionLocationUuid)) {
+                            if(!LocationUtils.doesPersonBelongToGivenLocation(iterator.next().getPerson(), personAttributeType, accessibleLocationUuid)) {
                                 iterator.remove();
                             }
                         }
                         object = patientList;
                     }
                     else if(object instanceof Patient) {
-                        if(!LocationUtils.doesPersonBelongToGivenLocation(((Patient)object).getPerson(), personAttributeType, sessionLocationUuid)) {
+                        if(!LocationUtils.doesPersonBelongToGivenLocation(((Patient)object).getPerson(), personAttributeType, accessibleLocationUuid)) {
                             object = null;
                         }
                     }
