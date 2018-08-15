@@ -8,6 +8,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
 import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
+import org.openmrs.ui.framework.fragment.FragmentConfiguration;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,6 +19,7 @@ public class AddLocationFragmentController {
 
     public void controller(FragmentModel model,
                            HttpSession session,
+                           FragmentConfiguration config,
                            @RequestParam(value = "userId", required = false) User user,
                            @RequestParam(value = "personId", required = false) Person person) {
         List<Location> activeLocations = Context.getLocationService().getAllLocations();
@@ -40,6 +42,17 @@ public class AddLocationFragmentController {
             Location location = LocationUtils.getPersonLocation(person);
             if(location != null) {
                 model.addAttribute("selectedLocationUuid", location.getUuid());
+            }
+        }
+
+        Object userId = config.getAttribute("userUuid");
+        if (userId != null) {
+            User thisUser = Context.getUserService().getUserByUuid(userId.toString());
+            if (thisUser != null) {
+                String locationProperty = thisUser.getUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
+                if (StringUtils.isNotBlank(locationProperty)) {
+                    model.addAttribute("selectedLocationUuid", locationProperty);
+                }
             }
         }
     }
