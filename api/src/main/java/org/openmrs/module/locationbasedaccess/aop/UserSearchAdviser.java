@@ -63,11 +63,12 @@ public class UserSearchAdviser extends StaticMethodMatcherPointcutAdvisor implem
 
     private class UserSearchAdvise implements MethodInterceptor {
         public Object invoke(MethodInvocation invocation) throws Throwable {
-            if (Context.getAuthenticatedUser() == null) {
+            User authenticatedUser = Context.getAuthenticatedUser();
+            if (authenticatedUser == null) {
                 return null;
             }
             Object object = invocation.proceed();
-            if (Daemon.isDaemonUser(Context.getAuthenticatedUser()) || Context.getAuthenticatedUser().isSuperUser()) {
+            if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
                 return object;
             }
             Integer sessionLocationId = Context.getUserContext().getLocationId();
@@ -76,15 +77,21 @@ public class UserSearchAdviser extends StaticMethodMatcherPointcutAdvisor implem
                 if(object instanceof List) {
                     List<User> userList = (List<User>) object;
                     for (Iterator<User> iterator = userList.iterator(); iterator.hasNext(); ) {
-                        if(!LocationUtils.doesUserBelongToGivenLocation(iterator.next(), sessionLocationUuid)) {
-                            iterator.remove();
+                        User user = iterator.next();
+                        if (!LocationUtils.doesUserBelongToGivenLocation(user, sessionLocationUuid)) {
+                            if (!authenticatedUser.getUuid().equals(user.getUuid())) {
+                                iterator.remove();
+                            }
                         }
                     }
                     object = userList;
                 }
                 else if(object instanceof User) {
-                    if(!LocationUtils.doesUserBelongToGivenLocation((User)object, sessionLocationUuid)) {
-                        object = null;
+                    User user = (User) object;
+                    if (!LocationUtils.doesUserBelongToGivenLocation(user, sessionLocationUuid)) {
+                        if (!authenticatedUser.getUuid().equals(user.getUuid())) {
+                            object = null;
+                        }
                     }
                 }
             }
