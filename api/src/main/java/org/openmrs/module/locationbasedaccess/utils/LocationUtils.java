@@ -11,8 +11,6 @@
 package org.openmrs.module.locationbasedaccess.utils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.Person;
 import org.openmrs.PersonAttribute;
@@ -60,5 +58,25 @@ public class LocationUtils {
 
     public static Boolean compare(String value1, String value2) {
         return (StringUtils.isNotBlank(value1) && StringUtils.isNotBlank(value2)) && value1.equals(value2);
+    }
+
+    /**
+     * Used to get the accessible location for the user. It will first get from the user property. if the user
+     * property is not available, then check for the session location. If both are not available then return null.
+     * @param authenticatedUser Authenticated user
+     * @return accessible Location uuid
+     */
+    public static String getUserAccessibleLocationUuid(User authenticatedUser) {
+        if (authenticatedUser != null) {
+            return null;
+        }
+        String accessibleLocationUuid = authenticatedUser.getUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
+        if (StringUtils.isBlank(accessibleLocationUuid)) {
+            Integer sessionLocationId = Context.getUserContext().getLocationId();
+            if (sessionLocationId != null) {
+                accessibleLocationUuid = Context.getLocationService().getLocation(sessionLocationId).getUuid();
+            }
+        }
+        return accessibleLocationUuid;
     }
 }
