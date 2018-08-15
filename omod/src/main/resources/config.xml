@@ -64,5 +64,9 @@
 		<point>org.openmrs.api.UserService</point>
 		<class>org.openmrs.module.locationbasedaccess.aop.UserSearchAdviser</class>
 	</advice>
+	<advice>
+		<point>org.openmrs.api.LocationService</point>
+		<class>org.openmrs.module.locationbasedaccess.aop.LocationSearchAdviser</class>
+	</advice>
 </module>
 
