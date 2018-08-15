@@ -17,6 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Encounter;
 import org.openmrs.Location;
+import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.Daemon;
 import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
@@ -73,34 +74,33 @@ public class EncounterSearchAdviser extends StaticMethodMatcherPointcutAdvisor i
 
     private class EncounterSearchAdvise implements MethodInterceptor {
         public Object invoke(MethodInvocation invocation) throws Throwable {
-            if (Context.getAuthenticatedUser() == null) {
+            User authenticatedUser = Context.getAuthenticatedUser();
+            if (authenticatedUser == null) {
                 return null;
             }
 
             Object object = invocation.proceed();
-            if (Daemon.isDaemonUser(Context.getAuthenticatedUser()) || Context.getAuthenticatedUser().isSuperUser()) {
+            if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
                 return object;
             }
 
-            Integer sessionLocationId = Context.getUserContext().getLocationId();
-            if (sessionLocationId != null) {
-                String sessionLocationUuid = Context.getLocationService().getLocation(sessionLocationId).getUuid();
-
+            String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
+            if (accessibleLocationUuid != null) {
                 if (object instanceof List) {
                     List<Encounter> encounterList = (List<Encounter>) object;
-                    object = removeEncountersIfNotBelongToGivenLocation(encounterList, sessionLocationUuid);
+                    object = removeEncountersIfNotBelongToGivenLocation(encounterList, accessibleLocationUuid);
                 } else if (object instanceof Map) {
                     Map<Integer, List<Encounter>> encounterMap = (Map<Integer, List<Encounter>>) object;
                     Iterator<Map.Entry<Integer, List<Encounter>>> mapIterator = encounterMap.entrySet().iterator();
                     while (mapIterator.hasNext()) {
                         Map.Entry<Integer, List<Encounter>> entry = mapIterator.next();
                         List<Encounter> encounterList = entry.getValue();
-                        entry.setValue(removeEncountersIfNotBelongToGivenLocation(encounterList, sessionLocationUuid));
+                        entry.setValue(removeEncountersIfNotBelongToGivenLocation(encounterList, accessibleLocationUuid));
                         //TODO: remove the entry from the map, if the encounter list is empty and update the map index
                     }
                     object = encounterMap;
                 } else if (object instanceof Encounter) {
-                    if (!doesEncounterBelongToGivenLocation((Encounter) object, sessionLocationUuid)) {
+                    if (!doesEncounterBelongToGivenLocation((Encounter) object, accessibleLocationUuid)) {
                         object = null;
                     }
                 }
