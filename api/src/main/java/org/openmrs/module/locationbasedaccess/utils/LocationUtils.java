@@ -67,7 +67,7 @@ public class LocationUtils {
      * @return accessible Location uuid
      */
     public static String getUserAccessibleLocationUuid(User authenticatedUser) {
-        if (authenticatedUser != null) {
+        if (authenticatedUser == null) {
             return null;
         }
         String accessibleLocationUuid = authenticatedUser.getUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
