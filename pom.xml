@@ -3,7 +3,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>locationbasedaccess</artifactId>
-	<version>0.1.1</version>
+	<version>0.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Location Based Access Control</name>
 	<description>Location Based Access Control for the Reference Application</description>
@@ -31,7 +31,7 @@
         <connection>scm:git:git@github.com:openmrs/openmrs-module-locationbasedaccess.git</connection>
         <developerConnection>scm:git:git@github.com:openmrs/openmrs-module-locationbasedaccess.git</developerConnection>
         <url>scm:git:https://github.com/openmrs/openmrs-module-locationbasedaccess</url>
-		<tag>locationbasedaccess-0.1.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<modules>
