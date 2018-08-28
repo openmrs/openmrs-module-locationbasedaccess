@@ -11,24 +11,12 @@
 package org.openmrs.module.locationbasedaccess.aop;
 
 import org.aopalliance.aop.Advice;
-import org.aopalliance.intercept.MethodInvocation;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Patient;
-import org.openmrs.PersonAttributeType;
-import org.openmrs.User;
-import org.openmrs.api.context.Context;
-import org.openmrs.api.context.Daemon;
-import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
-import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
+import org.openmrs.module.locationbasedaccess.aop.interceptor.PatientServiceInterceptorAdvice;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
@@ -50,52 +38,6 @@ public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor imp
 
     @Override
     public Advice getAdvice() {
-        return new PatientSearchAdvise();
-    }
-
-    private class PatientSearchAdvise implements MethodInterceptor {
-        public Object invoke(MethodInvocation invocation) throws Throwable {
-            User authenticatedUser = Context.getAuthenticatedUser();
-            if (authenticatedUser == null) {
-                return null;
-            }
-            Object object = invocation.proceed();
-            if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
-                return object;
-            }
-
-            String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
-            String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
-            if (StringUtils.isNotBlank(locationAttributeUuid)) {
-                final PersonAttributeType personAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(locationAttributeUuid);
-                if (accessibleLocationUuid != null) {
-                    if(object instanceof List) {
-                        List<Patient> patientList = (List<Patient>) object;
-                        for (Iterator<Patient> iterator = patientList.iterator(); iterator.hasNext(); ) {
-                            if(!LocationUtils.doesPersonBelongToGivenLocation(iterator.next().getPerson(), personAttributeType, accessibleLocationUuid)) {
-                                iterator.remove();
-                            }
-                        }
-                        object = patientList;
-                    }
-                    else if(object instanceof Patient) {
-                        if(!LocationUtils.doesPersonBelongToGivenLocation(((Patient)object).getPerson(), personAttributeType, accessibleLocationUuid)) {
-                            object = null;
-                        }
-                    }
-                } else {
-                    log.debug("Search Patient : Null Session Location in the UserContext");
-                    if(object instanceof Patient) {
-                        // If the sessionLocationId is null, then return null for a Patient instance
-                        return null;
-                    }
-                    else {
-                        // If the sessionLocationId is null, then return a empty list
-                        return new ArrayList<Patient>();
-                    }
-                }
-            }
-            return object;
-        }
+        return new PatientServiceInterceptorAdvice();
     }
 }
