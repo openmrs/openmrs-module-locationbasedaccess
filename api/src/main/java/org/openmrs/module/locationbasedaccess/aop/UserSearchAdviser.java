@@ -11,20 +11,12 @@
 package org.openmrs.module.locationbasedaccess.aop;
 
 import org.aopalliance.aop.Advice;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.User;
-import org.openmrs.api.context.Context;
-import org.openmrs.api.context.Daemon;
-import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
+import org.openmrs.module.locationbasedaccess.aop.interceptor.UserServiceInterceptorAdvice;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class UserSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
@@ -58,54 +50,7 @@ public class UserSearchAdviser extends StaticMethodMatcherPointcutAdvisor implem
 
     @Override
     public Advice getAdvice() {
-        return new UserSearchAdvise();
+        return new UserServiceInterceptorAdvice();
     }
 
-    private class UserSearchAdvise implements MethodInterceptor {
-        public Object invoke(MethodInvocation invocation) throws Throwable {
-            User authenticatedUser = Context.getAuthenticatedUser();
-            if (authenticatedUser == null) {
-                return null;
-            }
-            Object object = invocation.proceed();
-            if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
-                return object;
-            }
-            String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
-            if (accessibleLocationUuid != null) {
-                if(object instanceof List) {
-                    List<User> userList = (List<User>) object;
-                    for (Iterator<User> iterator = userList.iterator(); iterator.hasNext(); ) {
-                        User user = iterator.next();
-                        if (!LocationUtils.doesUserBelongToGivenLocation(user, accessibleLocationUuid)) {
-                            if (!authenticatedUser.getUuid().equals(user.getUuid())) {
-                                iterator.remove();
-                            }
-                        }
-                    }
-                    object = userList;
-                }
-                else if(object instanceof User) {
-                    User user = (User) object;
-                    if (!LocationUtils.doesUserBelongToGivenLocation(user, accessibleLocationUuid)) {
-                        if (!authenticatedUser.getUuid().equals(user.getUuid())) {
-                            object = null;
-                        }
-                    }
-                }
-            }
-            else {
-                log.debug("Search User : Null Session Location in the UserContext");
-                if(object instanceof User) {
-                    // If the sessionLocationId is null, then return null for a User instance
-                    return null;
-                }
-                else {
-                    // If the sessionLocationId is null, then return a empty list
-                    return new ArrayList<User>();
-                }
-            }
-            return object;
-        }
-    }
 }
