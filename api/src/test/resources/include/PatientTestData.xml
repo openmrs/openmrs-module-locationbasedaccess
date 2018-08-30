@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+-->
+<dataset>
+    <person_attribute_type person_attribute_type_id="10" name="accessLocation" description="Access Location" format="java.lang.String" searchable="false" creator="1" date_created="2007-05-03 09:20:37.0" uuid="cdc6a460-2700-102b-80cb-0017a47871b3" retired="false" sort_weight="1"/>
+    <global_property property="locationbasedaccess.locationAttributeUuid" property_value="cdc6a460-2700-102b-80cb-0017a47871b3" uuid="4ed94d61-a3d8-4fc4-a96f-4d2bfbb3b3tf" />
+
+    <location location_id="1" name="Test Location 1" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="ef93c695-ac43-450a-93f8-4b2b4d50a3c8"/>
+    <location location_id="2" name="Test Location 2" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="ef93c695-ac43-450a-93f8-4b2b4d50a3c9"/>
+
+    <person person_id="2" uuid="5631b434-78aa-102b-91a0-001e378eb67e" gender="M" birthdate="1950-04-01" dead="false" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"/>
+    <person_name person_name_id="2" preferred="true" person_id="2" given_name="Patient" middle_name="without" family_name="location" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="0f1f7d08-076b-4fc6-acac-4bb91515141e"/>
+    <patient patient_id="2" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"/>
+    <patient_identifier_type patient_identifier_type_id="1" name="Test Identifier Type" description="Test description" creator="1" date_created="2005-01-01 00:00:00.0" required="false" retired="false" uuid="0cbecb62-7249-4f91-8edf-d0206ecceb63"/>
+    <patient_identifier patient_identifier_id="1" patient_id="2" identifier="1234" identifier_type="1" preferred="1" location_id="1" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="1ac98ec8-e9d9-4626-998c-c795c2f0aa1f"/>
+
+    <person person_id="3" uuid="5631b434-78aa-102b-91a0-001e378eb68e" gender="M" birthdate="1950-04-01" dead="false" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"/>
+    <person_name person_name_id="3" preferred="true" person_id="3" given_name="Patient" middle_name="with" family_name="Location 1" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="0f1f7d08-076b-4fc6-acac-4bb91515142e"/>
+    <patient patient_id="3" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"/>
+    <patient_identifier_type patient_identifier_type_id="2" name="Test Identifier Type" description="Test description" creator="1" date_created="2005-01-01 00:00:00.0" required="false" retired="false" uuid="0cbecb62-7249-4f91-8edf-d0206ecceb64"/>
+    <patient_identifier patient_identifier_id="2" patient_id="3" identifier="1235" identifier_type="1" preferred="1" location_id="1" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="1ac98ec8-e9d9-4626-998c-c795c2f0aa2f"/>
+    <person_attribute person_attribute_id="1" person_id="3" person_attribute_type_id="10" value="ef93c695-ac43-450a-93f8-4b2b4d50a3c8" uuid="1ac98ec8-e9d9-4756-998c-c795c2f0ab1f"/>
+
+    <person person_id="4" uuid="5631b434-78aa-102b-91a0-001e378eb69e" gender="M" birthdate="1950-04-01" dead="false" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"/>
+    <person_name person_name_id="4" preferred="true" person_id="4" given_name="Patient" middle_name="with" family_name="Location 2" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="0f1f7d08-076b-4fc6-acac-4bb91515143e"/>
+    <patient patient_id="4" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"/>
+    <patient_identifier_type patient_identifier_type_id="3" name="Test Identifier Type" description="Test description" creator="1" date_created="2005-01-01 00:00:00.0" required="false" retired="false" uuid="0cbecb62-7249-4f91-8edf-d0206ecceb65"/>
+    <patient_identifier patient_identifier_id="3" patient_id="4" identifier="1236" identifier_type="1" preferred="1" location_id="1" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="1ac98ec8-e9d9-4626-998c-c795c2f0aa3f"/>
+    <person_attribute person_attribute_id="2" person_id="4" person_attribute_type_id="10" value="ef93c695-ac43-450a-93f8-4b2b4d50a3c9" uuid="1ac98ec8-e9d9-4756-998c-c795c2f0ab2f"/>
+
+    <role role="userRole" description="This is a test parent role" uuid="8de52b9e-e07d-4978-ba4a-a3828c13e489"/>
+    <privilege privilege="Get Patients" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f3u"/>
+    <role_privilege role="userRole" privilege="Get Patients"/>
+    <privilege privilege="Get Person Attribute Types" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f40"/>
+    <role_privilege role="userRole" privilege="Get Person Attribute Types"/>
+    <privilege privilege="Get Locations" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f50"/>
+    <role_privilege role="userRole" privilege="Get Locations"/>
+
+    <person person_id="6001" gender="M" dead="false" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="dc99369f-f88e-4d54-be56-100e1ff45cf1"/>
+    <person_name person_name_id="6001" preferred="true" person_id="6001" given_name="User" middle_name="Without" family_name="accessLocation" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="f5bbff8e-e53b-11de-8404-001e378eb671"/>
+    <users user_id="6001" person_id="6001" system_id="6-7" username="username1" salt="3b293c5448d5e6a62a3db8734636bf185e95c9dc4d8e54d37e17073ec8046e8a566eb8046581f96a821bbe33f21d2fae28154343f0b59fedd2ed9e0d578ac6ae" password="8836e4c323e2f2df47ef5a1fcd599d8033e5daf66a414cc16faa20474df600acbecda9765fd7078b115e9f17662112eb6921e22826e8460e2a65b6e8bfd8abd4" secret_question="secret" secret_answer="cfd32f98c491f9f79803490923db520524e79fbfc885763421f8ad6440b04437405ecf5c73e7147ecd6f4d99080dd857a408218d0509305eb0fba22d7d2ad90d" creator="1" date_created="2008-08-15 15:57:09.0" changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason="" uuid="0bc18050-e132-11de-babe-001e378eb67f"/>
+    <user_role user_id="6001" role="userRole" />
+
+    <person person_id="6002" gender="M" dead="false" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="dc59369f-f88e-4d54-be56-100e1ff45cf1"/>
+    <person_name person_name_id="6002" preferred="true" person_id="6002" given_name="User" middle_name="With" family_name="accessLocation" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="f4bbff8e-e53b-11de-8404-001e378eb671"/>
+    <users user_id="6002" person_id="6002" system_id="6-8" username="username2" salt="3b293c5448d5e6a62a3db8734636bf185e95c9dc4d8e54d37e17073ec8046e8a566eb8046581f96a821bbe33f21d2fae28154343f0b59fedd2ed9e0d578ac6ae" password="8836e4c323e2f2df47ef5a1fcd599d8033e5daf66a414cc16faa20474df600acbecda9765fd7078b115e9f17662112eb6921e22826e8460e2a65b6e8bfd8abd4" secret_question="secret" secret_answer="cfd32f98c491f9f79803490923db520524e79fbfc885763421f8ad6440b04437405ecf5c73e7147ecd6f4d99080dd857a408218d0509305eb0fba22d7d2ad90d" creator="1" date_created="2008-08-15 15:57:09.0" changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason="" uuid="0bc28050-e132-11de-babe-001e378eb67f"/>
+    <user_role user_id="6002" role="userRole" />
+    <user_property user_id="6002" property="locationUuid" property_value="ef93c695-ac43-450a-93f8-4b2b4d50a3c8" />
+
+</dataset>
