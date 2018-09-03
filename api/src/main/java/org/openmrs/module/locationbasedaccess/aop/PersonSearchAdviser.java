@@ -11,24 +11,12 @@
 package org.openmrs.module.locationbasedaccess.aop;
 
 import org.aopalliance.aop.Advice;
-import org.aopalliance.intercept.MethodInvocation;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Person;
-import org.openmrs.PersonAttributeType;
-import org.openmrs.User;
-import org.openmrs.api.context.Context;
-import org.openmrs.api.context.Daemon;
-import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
-import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
+import org.openmrs.module.locationbasedaccess.aop.interceptor.PersonServiceInterceptorAdvice;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class PersonSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
@@ -53,61 +41,7 @@ public class PersonSearchAdviser extends StaticMethodMatcherPointcutAdvisor impl
 
     @Override
     public Advice getAdvice() {
-        return new PersonSearchAdvise();
+        return new PersonServiceInterceptorAdvice();
     }
 
-    private class PersonSearchAdvise implements MethodInterceptor {
-        public Object invoke(MethodInvocation invocation) throws Throwable {
-            User authenticatedUser = Context.getAuthenticatedUser();
-            if (authenticatedUser == null) {
-                return null;
-            }
-            Object object = invocation.proceed();
-            if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
-                return object;
-            }
-            String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
-            String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
-            if (StringUtils.isNotBlank(locationAttributeUuid)) {
-                final PersonAttributeType personAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(locationAttributeUuid);
-                if (accessibleLocationUuid != null) {
-                    if(object instanceof List) {
-                        List<Person> personList = (List<Person>) object;
-                        for (Iterator<Person> iterator = personList.iterator(); iterator.hasNext(); ) {
-                            Person thisPerson = iterator.next();
-                            if (!LocationUtils.doesPersonBelongToGivenLocation(thisPerson, personAttributeType, accessibleLocationUuid)) {
-                                if (!LocationUtils.doesUsersForPersonBelongToGivenLocation(thisPerson, accessibleLocationUuid)) {
-                                    if (!thisPerson.getUuid().equals(authenticatedUser.getPerson().getUuid())) {
-                                        iterator.remove();
-                                    }
-                                }
-                            }
-                        }
-                        object = personList;
-                    }
-                    else if(object instanceof Person) {
-                        Person thisPerson = (Person)object;
-                        if (!LocationUtils.doesPersonBelongToGivenLocation(thisPerson, personAttributeType, accessibleLocationUuid)) {
-                            if (!LocationUtils.doesUsersForPersonBelongToGivenLocation(thisPerson, accessibleLocationUuid)) {
-                                if (!thisPerson.getUuid().equals(authenticatedUser.getPerson().getUuid())) {
-                                    object = null;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    log.debug("Search Person : Null Session Location in the UserContext");
-                    if(object instanceof Person) {
-                        // If the sessionLocationId is null, then return null for a Person instance
-                        return null;
-                    }
-                    else {
-                        // If the sessionLocationId is null, then return a empty list
-                        return new ArrayList<Person>();
-                    }
-                }
-            }
-            return object;
-        }
-    }
 }

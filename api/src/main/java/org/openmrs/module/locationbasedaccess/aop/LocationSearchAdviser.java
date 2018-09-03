@@ -11,25 +11,14 @@
 package org.openmrs.module.locationbasedaccess.aop;
 
 import org.aopalliance.aop.Advice;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Location;
-import org.openmrs.User;
-import org.openmrs.api.context.Context;
-import org.openmrs.api.context.Daemon;
-import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
-import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
+import org.openmrs.module.locationbasedaccess.aop.interceptor.LocationServiceInterceptorAdvice;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import java.lang.reflect.Method;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
-import java.util.ArrayList;
 
 public class LocationSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
@@ -57,49 +46,6 @@ public class LocationSearchAdviser extends StaticMethodMatcherPointcutAdvisor im
 
     @Override
     public Advice getAdvice() {
-        return new LocationSearchAdvise();
-    }
-
-    private class LocationSearchAdvise implements MethodInterceptor {
-        public Object invoke(MethodInvocation invocation) throws Throwable {
-            Method method = invocation.getMethod();
-            Object object = invocation.proceed();
-            // Allow get methods without authentications
-            if(!Context.isAuthenticated() && restrictedGetMethodNames.contains(method.getName())) {
-                return object;
-            }
-            User authenticatedUser = Context.getAuthenticatedUser();
-            if (authenticatedUser != null && (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser())) {
-                return object;
-            }
-
-            if(restrictedGetMethodNames.contains(method.getName())) {
-                String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
-                if (accessibleLocationUuid != null) {
-                    if(object instanceof List) {
-                        List<Location> locationList = (List<Location>) object;
-                        for (Iterator<Location> iterator = locationList.iterator(); iterator.hasNext(); ) {
-                            if(!LocationUtils.compare(accessibleLocationUuid, iterator.next().getUuid())) {
-                                iterator.remove();
-                            }
-                        }
-                        object = locationList;
-                    }
-                    else if(object instanceof Location) {
-                        if(!LocationUtils.compare(accessibleLocationUuid, ((Location)object).getUuid())) {
-                            object = null;
-                        }
-                    }
-                }
-                else {
-                    log.debug("Search Location : Null Session Location in the UserContext");
-                    if(object instanceof List) {
-                        // If the sessionLocationId is null, then return a empty list
-                        return new ArrayList<Location>();
-                    }
-                }
-            }
-            return object;
-        }
+        return new LocationServiceInterceptorAdvice(restrictedGetMethodNames);
     }
 }
