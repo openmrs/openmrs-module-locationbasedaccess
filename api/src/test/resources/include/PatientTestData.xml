@@ -37,6 +37,10 @@
     <role role="userRole" description="This is a test parent role" uuid="8de52b9e-e07d-4978-ba4a-a3828c13e489"/>
     <privilege privilege="Get Patients" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f3u"/>
     <role_privilege role="userRole" privilege="Get Patients"/>
+    <privilege privilege="Get Users" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f25"/>
+    <role_privilege role="userRole" privilege="Get Users"/>
+    <privilege privilege="Get People" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f75"/>
+    <role_privilege role="userRole" privilege="Get People"/>
     <privilege privilege="Get Person Attribute Types" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f40"/>
     <role_privilege role="userRole" privilege="Get Person Attribute Types"/>
     <privilege privilege="Get Locations" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f50"/>
@@ -52,5 +56,16 @@
     <users user_id="6002" person_id="6002" system_id="6-8" username="username2" salt="3b293c5448d5e6a62a3db8734636bf185e95c9dc4d8e54d37e17073ec8046e8a566eb8046581f96a821bbe33f21d2fae28154343f0b59fedd2ed9e0d578ac6ae" password="8836e4c323e2f2df47ef5a1fcd599d8033e5daf66a414cc16faa20474df600acbecda9765fd7078b115e9f17662112eb6921e22826e8460e2a65b6e8bfd8abd4" secret_question="secret" secret_answer="cfd32f98c491f9f79803490923db520524e79fbfc885763421f8ad6440b04437405ecf5c73e7147ecd6f4d99080dd857a408218d0509305eb0fba22d7d2ad90d" creator="1" date_created="2008-08-15 15:57:09.0" changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason="" uuid="0bc28050-e132-11de-babe-001e378eb67f"/>
     <user_role user_id="6002" role="userRole" />
     <user_property user_id="6002" property="locationUuid" property_value="ef93c695-ac43-450a-93f8-4b2b4d50a3c8" />
-
+    
+    <person person_id="6003" gender="M" dead="false" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="dc49369f-f88e-4d54-be56-100e1ff45cf1"/>
+    <person_name person_name_id="6003" preferred="true" person_id="6003" given_name="User" middle_name="With" family_name="accessLocation" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="f3bbff8e-e53b-11de-8404-001e378eb671"/>
+    <users user_id="6003" person_id="6003" system_id="6-9" username="username3" salt="3b293c5448d5e6a62a3db8734636bf185e95c9dc4d8e54d37e17073ec8046e8a566eb8046581f96a821bbe33f21d2fae28154343f0b59fedd2ed9e0d578ac6ae" password="8836e4c323e2f2df47ef5a1fcd599d8033e5daf66a414cc16faa20474df600acbecda9765fd7078b115e9f17662112eb6921e22826e8460e2a65b6e8bfd8abd4" secret_question="secret" secret_answer="cfd32f98c491f9f79803490923db520524e79fbfc885763421f8ad6440b04437405ecf5c73e7147ecd6f4d99080dd857a408218d0509305eb0fba22d7d2ad90d" creator="1" date_created="2008-08-15 15:57:09.0" changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason="" uuid="0bc38050-e132-11de-babe-001e378eb67f"/>
+    <user_role user_id="6003" role="userRole" />
+    <user_property user_id="6003" property="locationUuid" property_value="ef93c695-ac43-450a-93f8-4b2b4d50a3c9" />
+   
+    <person person_id="6004" gender="M" dead="false" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="dc39369f-f88e-4d54-be56-100e1ff45cf1"/>
+    <person_name person_name_id="6004" preferred="true" person_id="6004" given_name="User" middle_name="With" family_name="accessLocation" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="f2bbff8e-e53b-11de-8404-001e378eb671"/>
+    <users user_id="6004" person_id="6004" system_id="6-10" username="username4" salt="3b293c5448d5e6a62a3db8734636bf185e95c9dc4d8e54d37e17073ec8046e8a566eb8046581f96a821bbe33f21d2fae28154343f0b59fedd2ed9e0d578ac6ae" password="8836e4c323e2f2df47ef5a1fcd599d8033e5daf66a414cc16faa20474df600acbecda9765fd7078b115e9f17662112eb6921e22826e8460e2a65b6e8bfd8abd4" secret_question="secret" secret_answer="cfd32f98c491f9f79803490923db520524e79fbfc885763421f8ad6440b04437405ecf5c73e7147ecd6f4d99080dd857a408218d0509305eb0fba22d7d2ad90d" creator="1" date_created="2008-08-15 15:57:09.0" changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason="" uuid="0bc48050-e132-11de-babe-001e378eb67f"/>
+    <user_role user_id="6004" role="userRole" />
+    <user_property user_id="6004" property="locationUuid" property_value="ef93c695-ac43-450a-93f8-4b2b4d50a3c8" />
 </dataset>
