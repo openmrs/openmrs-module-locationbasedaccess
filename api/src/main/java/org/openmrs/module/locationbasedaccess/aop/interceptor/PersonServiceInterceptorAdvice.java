@@ -41,7 +41,7 @@ public class PersonServiceInterceptorAdvice  implements MethodInterceptor {
         }
         String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
         String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
-        if (StringUtils.isNotBlank(locationAttributeUuid)) {
+        if (StringUtils.isNotBlank(locationAttributeUuid) && (invocation.getMethod().getName() != "getPersonAttributeTypeByUuid")) {
             final PersonAttributeType personAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(locationAttributeUuid);
             if (accessibleLocationUuid != null) {
                 if(object instanceof List) {
