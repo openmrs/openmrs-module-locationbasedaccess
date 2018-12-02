@@ -13,6 +13,13 @@ public interface TestWithAOP {
     void setInterceptor(Class<? extends MethodInterceptor> interceptorClass);
 
     /**
+     * Sets an AOP method interceptor to be active on the test case.
+     *
+     * @param interceptor Eg. "MyInterceptor"
+     */
+    void setInterceptor(MethodInterceptor interceptor);
+
+    /**
      * Hooks the OpenMRS Services
      *
      * @param serviceClass
