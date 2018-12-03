@@ -23,7 +23,6 @@ import org.openmrs.module.locationbasedaccess.aop.common.AOPContextSensitiveTest
 import org.openmrs.module.locationbasedaccess.aop.common.TestWithAOP;
 import org.openmrs.module.locationbasedaccess.aop.interceptor.PersonServiceInterceptorAdvice;
 import java.util.List;
-import java.util.Set;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -62,203 +61,203 @@ public class PersonSearchAdviserTest extends AOPContextSensitiveTest {
 
     @Override
     protected void setInterceptorAndServices(TestWithAOP testCase) {
-	      testCase.setInterceptor(PersonServiceInterceptorAdvice.class);
-	      testCase.addService(PersonService.class);
+        testCase.setInterceptor(PersonServiceInterceptorAdvice.class);
+        testCase.addService(PersonService.class);
     }
 
     @Before
     public void setUp() throws Exception {
-	      userService = Context.getUserService();
-	      personService = Context.getPersonService();
-	      locationService = Context.getLocationService();
-	      executeDataSet(XML_FILENAME_WITH_ADMIN_USER_DATA);
-	      executeDataSet(XML_FILENAME_WITH_PERSON_DATA);
+        userService = Context.getUserService();
+        personService = Context.getPersonService();
+        locationService = Context.getLocationService();
+        executeDataSet(XML_FILENAME_WITH_ADMIN_USER_DATA);
+        executeDataSet(XML_FILENAME_WITH_PERSON_DATA);
     }
 
     @Test
     public void getPeople_adminShouldGetPeopleFromAllLocations() {
-            Context.authenticate(DEMO_ADMIN_USERNAME, DEMO_ADMIN_PASSWORD);
-            User authenticatedUser = Context.getAuthenticatedUser();
-            assertNotNull(authenticatedUser);
-            assertTrue(authenticatedUser.isSuperUser());
+        Context.authenticate(DEMO_ADMIN_USERNAME, DEMO_ADMIN_PASSWORD);
+        User authenticatedUser = Context.getAuthenticatedUser();
+        assertNotNull(authenticatedUser);
+        assertTrue(authenticatedUser.isSuperUser());
 
-            Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
-            Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
+        Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
+        Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
 
-            List<Person> personList = personService.getPeople(DEMO_PATIENT_FIRST_NAME, false);
+        List<Person> personList = personService.getPeople(DEMO_PATIENT_FIRST_NAME, false);
 
-            assertEquals(personList.size(), 3);
-            assertNull(personList.get(0).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
+        assertEquals(personList.size(), 3);
+        assertNull(personList.get(0).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
 
-            assertNotNull(personList.get(1).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
-            assertEquals(personList.get(1).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        assertNotNull(personList.get(1).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
+        assertEquals(personList.get(1).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
 
-            assertNotNull(personList.get(2).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
-            assertEquals(personList.get(2).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location2.getUuid());
+        assertNotNull(personList.get(2).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
+        assertEquals(personList.get(2).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location2.getUuid());
     }
 
     @Test
     public void getPeople_nonAdminUserWithLocationPropertyShouldGetOnlyAccessiblePersonInformation() {
-            User normalUser = userService.getUser(DEMO_USER2_ID);
-            Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
-            assertFalse(normalUser.isSuperUser());
+        User normalUser = userService.getUser(DEMO_USER2_ID);
+        Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
+        assertFalse(normalUser.isSuperUser());
 
-            Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
+        Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-            assertEquals(normalUser.getUserProperties().size(), 1);
-            String locationUserProperty = normalUser.getUserProperty(DEMO_LOCATION_USER_PROPERTY);
-            assertNotNull(locationUserProperty);
-            assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(normalUser.getUserProperties().size(), 1);
+        String locationUserProperty = normalUser.getUserProperty(DEMO_LOCATION_USER_PROPERTY);
+        assertNotNull(locationUserProperty);
+        assertEquals(locationUserProperty, location1.getUuid());
 
-            List<Person> personList = personService.getPeople(DEMO_PATIENT_FIRST_NAME, false);
-            assertEquals(personList.size(), 1);
+        List<Person> personList = personService.getPeople(DEMO_PATIENT_FIRST_NAME, false);
+        assertEquals(personList.size(), 1);
 
-            Person person = personList.get(0);
-            assertNotNull(person.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
-            assertEquals(person.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        Person person = personList.get(0);
+        assertNotNull(person.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
+        assertEquals(person.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
     }
 
     @Test
     public void getPeople_nonAdminUserWithOutLocationPropertyShouldNotGetPersonInformation() {
-            User normalUser = userService.getUser(DEMO_USER1_ID);
-            Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
-            assertFalse(normalUser.isSuperUser());
+        User normalUser = userService.getUser(DEMO_USER1_ID);
+        Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
+        assertFalse(normalUser.isSuperUser());
 
-            assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(normalUser.getUserProperties().size(), 0);
 
-            List<Person> personList = personService.getPeople(DEMO_PATIENT_FIRST_NAME, false);
-            assertEquals(personList.size(), 0);
+        List<Person> personList = personService.getPeople(DEMO_PATIENT_FIRST_NAME, false);
+        assertEquals(personList.size(), 0);
     }
 
     @Test
     public void getPerson_adminShouldGetPersonFromAllLocations() {
-            Context.authenticate(DEMO_ADMIN_USERNAME, DEMO_ADMIN_PASSWORD);
-            User authenticatedUser = Context.getAuthenticatedUser();
-            assertNotNull(authenticatedUser);
-            assertTrue(authenticatedUser.isSuperUser());
+        Context.authenticate(DEMO_ADMIN_USERNAME, DEMO_ADMIN_PASSWORD);
+        User authenticatedUser = Context.getAuthenticatedUser();
+        assertNotNull(authenticatedUser);
+        assertTrue(authenticatedUser.isSuperUser());
 
-            Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
-            Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
+        Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
+        Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
 
-            Person person1 = personService.getPerson(DEMO_PERSON1_ID);
-            assertNotNull(person1);
-            assertNull(person1.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
+        Person person1 = personService.getPerson(DEMO_PERSON1_ID);
+        assertNotNull(person1);
+        assertNull(person1.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
 
-            Person person2 = personService.getPerson(DEMO_PERSON2_ID);
-            assertNotNull(person2);
-            assertEquals(person2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        Person person2 = personService.getPerson(DEMO_PERSON2_ID);
+        assertNotNull(person2);
+        assertEquals(person2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
 
-            Person person3 = personService.getPerson(DEMO_PERSON3_ID);
-            assertNotNull(person3);
-            assertEquals(person3.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location2.getUuid());
+        Person person3 = personService.getPerson(DEMO_PERSON3_ID);
+        assertNotNull(person3);
+        assertEquals(person3.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location2.getUuid());
     }
 
     @Test
     public void getPerson_nonAdminUserWithLocationPropertyShouldGetOnlyAccessiblePersonInformation() {
-            User normalUser = userService.getUser(DEMO_USER2_ID);
-            Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
-            assertFalse(normalUser.isSuperUser());
+        User normalUser = userService.getUser(DEMO_USER2_ID);
+        Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
+        assertFalse(normalUser.isSuperUser());
 
-            Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
+        Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-            assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(normalUser.getUserProperties().size(), 1);
 
-            String locationUserProperty = normalUser.getUserProperty(DEMO_LOCATION_USER_PROPERTY);
-            assertNotNull(locationUserProperty);
-            assertEquals(locationUserProperty, location1.getUuid());
+        String locationUserProperty = normalUser.getUserProperty(DEMO_LOCATION_USER_PROPERTY);
+        assertNotNull(locationUserProperty);
+        assertEquals(locationUserProperty, location1.getUuid());
 
-            Person person1 = personService.getPerson(DEMO_PERSON1_ID);
-            assertNull(person1);
+        Person person1 = personService.getPerson(DEMO_PERSON1_ID);
+        assertNull(person1);
 
-            Person person2 = personService.getPerson(DEMO_PERSON2_ID);
-            assertNotNull(person2);
-            assertEquals(person2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        Person person2 = personService.getPerson(DEMO_PERSON2_ID);
+        assertNotNull(person2);
+        assertEquals(person2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
 
-            Person person3 = personService.getPerson(DEMO_PERSON3_ID);
-            assertNull(person3);
+        Person person3 = personService.getPerson(DEMO_PERSON3_ID);
+        assertNull(person3);
     }
 
     @Test
     public void getPerson_nonAdminUserWithOutLocationPropertyShouldNotGetPersonInformation() {
-            User normalUser = userService.getUser(DEMO_USER1_ID);
-            Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
-            assertFalse(normalUser.isSuperUser());
+        User normalUser = userService.getUser(DEMO_USER1_ID);
+        Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
+        assertFalse(normalUser.isSuperUser());
 
-            assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(normalUser.getUserProperties().size(), 0);
 
-            Person person1 = personService.getPerson(DEMO_PERSON1_ID);
-            assertNull(person1);
+        Person person1 = personService.getPerson(DEMO_PERSON1_ID);
+        assertNull(person1);
 
-            Person person2 = personService.getPerson(DEMO_PERSON2_ID);
-            assertNull(person2);
+        Person person2 = personService.getPerson(DEMO_PERSON2_ID);
+        assertNull(person2);
 
-            Person person3 = personService.getPerson(DEMO_PERSON3_ID);
-            assertNull(person3);
+        Person person3 = personService.getPerson(DEMO_PERSON3_ID);
+        assertNull(person3);
     }
 
     @Test
     public void getPersonByUuid_adminShouldGetPeopleFromAllLocations() {
-            Context.authenticate(DEMO_ADMIN_USERNAME, DEMO_ADMIN_PASSWORD);
-            User authenticatedUser = Context.getAuthenticatedUser();
-            assertNotNull(authenticatedUser);
-            assertTrue(authenticatedUser.isSuperUser());
+        Context.authenticate(DEMO_ADMIN_USERNAME, DEMO_ADMIN_PASSWORD);
+        User authenticatedUser = Context.getAuthenticatedUser();
+        assertNotNull(authenticatedUser);
+        assertTrue(authenticatedUser.isSuperUser());
 
-            Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
-            Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
+        Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
+        Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
 
-            Person person1 = personService.getPersonByUuid(DEMO_PATIENT1_ID);
-            assertNotNull(person1);
-            assertNull(person1.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
+        Person person1 = personService.getPersonByUuid(DEMO_PATIENT1_ID);
+        assertNotNull(person1);
+        assertNull(person1.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
 
-            Person person2 = personService.getPersonByUuid(DEMO_PATIENT2_ID);
-            assertNotNull(person2);
-            assertEquals(person2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        Person person2 = personService.getPersonByUuid(DEMO_PATIENT2_ID);
+        assertNotNull(person2);
+        assertEquals(person2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
 
-            Person person3 = personService.getPersonByUuid(DEMO_PATIENT3_ID);
-            assertNotNull(person3);
-            assertEquals(person3.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location2.getUuid());
+        Person person3 = personService.getPersonByUuid(DEMO_PATIENT3_ID);
+        assertNotNull(person3);
+        assertEquals(person3.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location2.getUuid());
     }
 
     @Test
     public void getPersonByUuid_nonAdminUserWithLocationPropertyShouldGetOnlyAccessiblePersonInformation() {
-            User normalUser = userService.getUser(DEMO_USER2_ID);
-            Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
-            assertFalse(normalUser.isSuperUser());
+        User normalUser = userService.getUser(DEMO_USER2_ID);
+        Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
+        assertFalse(normalUser.isSuperUser());
 
-            Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
+        Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-            assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(normalUser.getUserProperties().size(), 1);
 
-            String locationUserProperty = normalUser.getUserProperty(DEMO_LOCATION_USER_PROPERTY);
-            assertNotNull(locationUserProperty);
-            assertEquals(locationUserProperty, location1.getUuid());
+        String locationUserProperty = normalUser.getUserProperty(DEMO_LOCATION_USER_PROPERTY);
+        assertNotNull(locationUserProperty);
+        assertEquals(locationUserProperty, location1.getUuid());
 
-            Person person1 = personService.getPersonByUuid(DEMO_PATIENT1_ID);
-            assertNull(person1);
+        Person person1 = personService.getPersonByUuid(DEMO_PATIENT1_ID);
+        assertNull(person1);
 
-            Person person2 = personService.getPersonByUuid(DEMO_PATIENT2_ID);
-            assertNotNull(person2);
-            assertEquals(person2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        Person person2 = personService.getPersonByUuid(DEMO_PATIENT2_ID);
+        assertNotNull(person2);
+        assertEquals(person2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
 
-            Person person3 = personService.getPersonByUuid(DEMO_PATIENT3_ID);
-            assertNull(person3);
+        Person person3 = personService.getPersonByUuid(DEMO_PATIENT3_ID);
+        assertNull(person3);
     }
 
     @Test
     public void getPersonByUuid_nonAdminUserWithOutLocationPropertyShouldNotGetPersonInformation() {
-            User normalUser = userService.getUser(DEMO_USER1_ID);
-            Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
-            assertFalse(normalUser.isSuperUser());
+        User normalUser = userService.getUser(DEMO_USER1_ID);
+        Context.authenticate(normalUser.getUsername(), DEMO_NORMAL_USER_PASSWORD);
+        assertFalse(normalUser.isSuperUser());
 
-            assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(normalUser.getUserProperties().size(), 0);
 
-            Person person1 = personService.getPersonByUuid(DEMO_PATIENT1_ID);
-            assertNull(person1);
+        Person person1 = personService.getPersonByUuid(DEMO_PATIENT1_ID);
+        assertNull(person1);
 
-            Person person2 = personService.getPersonByUuid(DEMO_PATIENT2_ID);
-            assertNull(person2);
+        Person person2 = personService.getPersonByUuid(DEMO_PATIENT2_ID);
+        assertNull(person2);
 
-            Person person3 = personService.getPersonByUuid(DEMO_PATIENT3_ID);
-            assertNull(person3);
+        Person person3 = personService.getPersonByUuid(DEMO_PATIENT3_ID);
+        assertNull(person3);
     }
 }
