@@ -10,10 +10,24 @@
 <dataset>
     <person_attribute_type person_attribute_type_id="10" name="accessLocation" description="Access Location" format="java.lang.String" searchable="false" creator="1" date_created="2007-05-03 09:20:37.0" uuid="cdc6a460-2700-102b-80cb-0017a47871b3" retired="false" sort_weight="1"/>
     <global_property property="locationbasedaccess.locationAttributeUuid" property_value="cdc6a460-2700-102b-80cb-0017a47871b3" uuid="4ed94d61-a3d8-4fc4-a96f-4d2bfbb3b3tf" />
-
+    <visit_type visit_type_id="1" name="Initial HIV Clinic Visit" description="Initial HIV Clinic Visit Description" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="c0c579b0-8e59-401d-8a4a-976a0b183519"/>
+    <encounter_role encounter_role_id="1" name="Unknown" description="Unknown encounter role for legacy providers with no encounter role set" creator="1" retired="false" date_created="2011-08-18 14:00:00.0" uuid="a0b03050-c99b-11e0-9572-0800200c9a66" />
+    <encounter_type encounter_type_id="1" name="Scheduled" description="Scheduled Visit" creator="1" date_created="2005-02-24 00:00:00.0" retired="false" uuid="61ae96f4-6afe-4351-b6f8-cd4fc383cce1"/>
+    <encounter_type encounter_type_id="2" name="Emergency" description="Emergency visit" creator="1" date_created="2005-02-24 00:00:00.0" retired="false" uuid="07000be2-26b6-4cce-8b40-866d8435b613"/>
+    <visit visit_id="1" patient_id="2" visit_type_id="1" date_started="2005-01-01 00:00:00.0" location_id="1" indication_concept_id="5497" creator="1" date_created="2005-01-01 00:00:00.0" voided="0" uuid="1e5d5d48-6b78-11e0-93c3-18a905e044dc" />
+    <visit visit_id="2" patient_id="2" visit_type_id="1" date_started="2005-01-01 00:00:00.0" creator="1" date_created="2005-01-01 00:00:00.0" voided="0" uuid="4e663d66-6b78-11e0-93c3-18a905e044dc" />
     <location location_id="1" name="Test Location 1" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="ef93c695-ac43-450a-93f8-4b2b4d50a3c8"/>
     <location location_id="2" name="Test Location 2" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="ef93c695-ac43-450a-93f8-4b2b4d50a3c9"/>
-
+    
+    <encounter encounter_id="1" encounter_type="1" patient_id="2" location_id="1" visit_id="1" form_id="1" encounter_datetime="2008-08-01 00:00:00.0" creator="1" date_created="2008-08-18 14:09:05.0" voided="false" uuid="7519d653-393b-4118-9c83-a3715b82d4ac"/>
+    <encounter_provider encounter_provider_id="1" encounter_id="1" provider_id="1" encounter_role_id="1" creator="1" date_created="2006-03-11 15:57:35.0" voided="false" uuid="20e0aae8-20ee-46b7-ade6-9e68f897b7a9" />
+    <encounter encounter_id="2" encounter_type="2" patient_id="2" location_id="2" visit_id="1" form_id="1" encounter_datetime="2008-08-01 00:00:00.0" creator="1" date_created="2008-08-18 14:09:05.0" voided="false" uuid="8519d653-393b-4118-9c83-a3715b82d4ac"/>
+    <encounter_provider encounter_provider_id="2" encounter_id="2" provider_id="1" encounter_role_id="1" creator="1" date_created="2006-03-11 15:57:35.0" voided="false" uuid="21e0aae8-20ee-46b7-ade6-9e68f897b7a9" />
+    <encounter encounter_id="7" encounter_type="2" patient_id="2" location_id="2" form_id="1" encounter_datetime="2008-08-01 00:00:00.0" creator="1" date_created="2008-08-18 14:09:05.0" voided="false" uuid="9519d653-393b-4118-9c83-a3715b82d4ac"/>
+    <encounter_provider encounter_provider_id="7" encounter_id="7" provider_id="1" encounter_role_id="1" creator="1" date_created="2006-03-11 15:57:35.0" voided="false" uuid="22e0aae8-20ee-46b7-ade6-9e68f897b7a9" />
+    <encounter encounter_id="8" encounter_type="2" patient_id="2" location_id="2" visit_id="2" form_id="1" encounter_datetime="2008-08-01 00:00:00.0" creator="1" date_created="2008-08-18 14:09:05.0" voided="false" uuid="0619d653-393b-4118-9c83-a3715b82d4ac"/>
+    <encounter_provider encounter_provider_id="8" encounter_id="8" provider_id="1" encounter_role_id="1" creator="1" date_created="2006-03-11 15:57:35.0" voided="false" uuid="98e0aae8-20ee-46b7-ade6-9e68f897b7a9" />
+    
     <person person_id="2" uuid="5631b434-78aa-102b-91a0-001e378eb67e" gender="M" birthdate="1950-04-01" dead="false" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"/>
     <person_name person_name_id="2" preferred="true" person_id="2" given_name="Patient" middle_name="without" family_name="location" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="0f1f7d08-076b-4fc6-acac-4bb91515141e"/>
     <patient patient_id="2" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"/>
@@ -33,7 +47,7 @@
     <patient_identifier_type patient_identifier_type_id="3" name="Test Identifier Type" description="Test description" creator="1" date_created="2005-01-01 00:00:00.0" required="false" retired="false" uuid="0cbecb62-7249-4f91-8edf-d0206ecceb65"/>
     <patient_identifier patient_identifier_id="3" patient_id="4" identifier="1236" identifier_type="1" preferred="1" location_id="1" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="1ac98ec8-e9d9-4626-998c-c795c2f0aa3f"/>
     <person_attribute person_attribute_id="2" person_id="4" person_attribute_type_id="10" value="ef93c695-ac43-450a-93f8-4b2b4d50a3c9" uuid="1ac98ec8-e9d9-4756-998c-c795c2f0ab2f"/>
-
+    
     <role role="userRole" description="This is a test parent role" uuid="8de52b9e-e07d-4978-ba4a-a3828c13e489"/>
     <privilege privilege="Get Patients" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f3u"/>
     <role_privilege role="userRole" privilege="Get Patients"/>
@@ -45,6 +59,10 @@
     <role_privilege role="userRole" privilege="Get Person Attribute Types"/>
     <privilege privilege="Get Locations" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f50"/>
     <role_privilege role="userRole" privilege="Get Locations"/>
+    <privilege privilege="Get Encounters" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f00"/>
+    <role_privilege role="userRole" privilege="Get Encounters"/>
+    <privilege privilege="Get Visits" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f20"/>
+    <role_privilege role="userRole" privilege="Get Visits"/>
 
     <person person_id="6001" gender="M" dead="false" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="dc99369f-f88e-4d54-be56-100e1ff45cf1"/>
     <person_name person_name_id="6001" preferred="true" person_id="6001" given_name="User" middle_name="Without" family_name="accessLocation" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="f5bbff8e-e53b-11de-8404-001e378eb671"/>
