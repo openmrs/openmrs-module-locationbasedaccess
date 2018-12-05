@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+-->
+<dataset>
+    <person person_id="1" gender="" birthdate="1975-06-30" birthdate_estimated="false" dead="false" date_created="2005-01-01 00:00:00.0" voided="false" uuid="6adb7c42-cfd2-4301-b53b-ff17c5654ff7"/>
+    <role role="Authenticated" description="Every person logged in automatically has this role." uuid="0dc8933e-7105-4c3b-b86c-15618d854660"/>
+    <role role="System Developer" description="Administrators of the OpenMRS .. have additional access to change fundamental structure of the database model." uuid="0e43640b-67d1-4458-b47f-b64fd8ce4b0d"/>
+    <users user_id="1" person_id="1" system_id="1-8" username="admin" password="4a1750c8607d0fa237de36c6305715c223415189" salt="c788c6ad82a157b712392ca695dfcf2eed193d7f" secret_question="" creator="1" date_created="2005-01-01 00:00:00.0" changed_by="1" date_changed="2007-09-20 21:54:12.0" retired="false" retire_reason="" uuid="1010d442-e134-11de-babe-001e378eb67e"/>
+    <users user_id="0" person_id="1" system_id="daemon" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" retire_reason="" uuid="A4F30A1B-5EB9-11DF-A648-37A07F9C90FB"/>
+    <user_role user_id="1" role="System Developer"/>
+
+    <role role="userRole" description="This is a test parent role" uuid="8de52b9e-e07d-4978-ba4a-a3828c13e489"/>
+    <privilege privilege="Get Locations" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f50"/>
+    <role_privilege role="userRole" privilege="Get Locations"/>
+
+    <person person_id="6001" gender="M" dead="false" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="dc99369f-f88e-4d54-be56-100e1ff45cf1"/>
+    <person_name person_name_id="6001" preferred="true" person_id="6001" given_name="User" middle_name="Without" family_name="accessLocation" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="f5bbff8e-e53b-11de-8404-001e378eb671"/>
+    <users user_id="6001" person_id="6001" system_id="6-7" username="username1" salt="3b293c5448d5e6a62a3db8734636bf185e95c9dc4d8e54d37e17073ec8046e8a566eb8046581f96a821bbe33f21d2fae28154343f0b59fedd2ed9e0d578ac6ae" password="8836e4c323e2f2df47ef5a1fcd599d8033e5daf66a414cc16faa20474df600acbecda9765fd7078b115e9f17662112eb6921e22826e8460e2a65b6e8bfd8abd4" secret_question="secret" secret_answer="cfd32f98c491f9f79803490923db520524e79fbfc885763421f8ad6440b04437405ecf5c73e7147ecd6f4d99080dd857a408218d0509305eb0fba22d7d2ad90d" creator="1" date_created="2008-08-15 15:57:09.0" changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason="" uuid="0bc18050-e132-11de-babe-001e378eb67f"/>
+    <user_role user_id="6001" role="userRole" />
+    <user_property user_id="6001" property="locationUuid" property_value="ef93c695-ac43-450a-93f8-4b2b4d50a3ca" />
+
+    <person person_id="6002" gender="M" dead="false" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="dc59369f-f88e-4d54-be56-100e1ff45cf1"/>
+    <person_name person_name_id="6002" preferred="true" person_id="6002" given_name="User" middle_name="With" family_name="accessLocation" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="f4bbff8e-e53b-11de-8404-001e378eb671"/>
+    <users user_id="6002" person_id="6002" system_id="6-8" username="username2" salt="3b293c5448d5e6a62a3db8734636bf185e95c9dc4d8e54d37e17073ec8046e8a566eb8046581f96a821bbe33f21d2fae28154343f0b59fedd2ed9e0d578ac6ae" password="8836e4c323e2f2df47ef5a1fcd599d8033e5daf66a414cc16faa20474df600acbecda9765fd7078b115e9f17662112eb6921e22826e8460e2a65b6e8bfd8abd4" secret_question="secret" secret_answer="cfd32f98c491f9f79803490923db520524e79fbfc885763421f8ad6440b04437405ecf5c73e7147ecd6f4d99080dd857a408218d0509305eb0fba22d7d2ad90d" creator="1" date_created="2008-08-15 15:57:09.0" changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason="" uuid="0bc28050-e132-11de-babe-001e378eb67f"/>
+    <user_role user_id="6002" role="userRole" />
+
+    <location location_id="1" name="Test Location 1" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="ef93c695-ac43-450a-93f8-4b2b4d50a3c8"/>
+    <location location_id="2" name="Test Location 2" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="ef93c695-ac43-450a-93f8-4b2b4d50a3c9"/>
+    <location location_id="3" name="Test Location 3" parent_location="1" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="ef93c695-ac43-450a-93f8-4b2b4d50a3ca"/>
+    <location location_id="4" name="Test Location 4" parent_location="1" creator="1" date_created="2005-01-01 00:00:00.0" retired="true" uuid="ef93c695-ac43-450a-93f8-4b2b4d50a3cb"/>
+    <location location_id="5" name="Test Location 5" creator="1" date_created="2005-01-01 00:00:00.0" retired="true" uuid="ef93c695-ac43-450a-93f8-4b2b4d50a3cc"/>
+
+    <location_tag location_tag_id="1" name="Test Location Tag" description="test desc" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="001e503a-47ed-11df-bc8b-001e378eb67e"/>
+
+    <location_tag_map location_id="1" location_tag_id="1"/>
+    <location_tag_map location_id="3" location_tag_id="1"/>
+</dataset>
