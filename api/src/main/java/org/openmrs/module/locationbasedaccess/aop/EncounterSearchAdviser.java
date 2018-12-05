@@ -17,41 +17,29 @@ import org.openmrs.module.locationbasedaccess.aop.interceptor.EncounterServiceIn
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 public class EncounterSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
     private static final Log log = LogFactory.getLog(EncounterSearchAdviser.class);
+    private Set<String> restrictedGetMethodNames = new HashSet<String>();
+
+    public EncounterSearchAdviser() {
+        restrictedGetMethodNames.add("getEncounter");
+        restrictedGetMethodNames.add("getEncounterByUuid");
+        restrictedGetMethodNames.add("getEncounters");
+        restrictedGetMethodNames.add("getEncountersByPatientId");
+        restrictedGetMethodNames.add("getEncountersByPatient");
+        restrictedGetMethodNames.add("getEncountersByVisit");
+        restrictedGetMethodNames.add("getEncountersNotAssignedToAnyVisit");
+        restrictedGetMethodNames.add("getEncountersByVisitsAndPatient");
+        restrictedGetMethodNames.add("getAllEncounters");
+    }
 
     @Override
     public boolean matches(Method method, Class targetClass) {
-        if (method.getName().equals("getEncounter")) {
-            return true;
-        }
-        else if (method.getName().equals("getEncounterByUuid")) {
-            return true;
-        }
-        else if (method.getName().equals("getEncounters")) {
-            return true;
-        }
-        else if (method.getName().equals("getEncountersByPatientId")) {
-            return true;
-        }
-        else if (method.getName().equals("getEncountersByPatient")) {
-            return true;
-        }
-        else if (method.getName().equals("getEncountersByVisit")) {
-            return true;
-        }
-        else if (method.getName().equals("getEncountersNotAssignedToAnyVisit")) {
-            return true;
-        }
-        else if (method.getName().equals("getEncountersByVisitsAndPatient")) {
-            return true;
-        }
-        else if (method.getName().equals("getAllEncounters")) {
-            return true;
-        }
-        return false;
+        return restrictedGetMethodNames.contains(method.getName());
     }
 
     @Override

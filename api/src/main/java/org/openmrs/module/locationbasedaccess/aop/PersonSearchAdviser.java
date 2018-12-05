@@ -17,26 +17,24 @@ import org.openmrs.module.locationbasedaccess.aop.interceptor.PersonServiceInter
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PersonSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
     private static final Log log = LogFactory.getLog(PersonSearchAdviser.class);
+    private Set<String> restrictedGetMethodNames = new HashSet<String>();
+
+    public PersonSearchAdviser() {
+        restrictedGetMethodNames.add("getPeople");
+        restrictedGetMethodNames.add("getPerson");
+        restrictedGetMethodNames.add("getPersonByUuid");
+        restrictedGetMethodNames.add("getSimilarPeople");
+    }
 
     @Override
     public boolean matches(Method method, Class targetClass) {
-        if (method.getName().equals("getPeople")) {
-            return true;
-        }
-        else if (method.getName().equals("getPerson")) {
-            return true;
-        }
-        else if (method.getName().equals("getPersonByUuid")) {
-            return true;
-        }
-        else if (method.getName().equals("getSimilarPeople")) {
-            return true;
-        }
-        return false;
+        return restrictedGetMethodNames.contains(method.getName());
     }
 
     @Override
