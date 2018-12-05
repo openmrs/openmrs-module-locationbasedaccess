@@ -17,23 +17,23 @@ import org.openmrs.module.locationbasedaccess.aop.interceptor.PatientServiceInte
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PatientSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
     private static final Log log = LogFactory.getLog(PatientSearchAdviser.class);
+    private Set<String> restrictedGetMethodNames = new HashSet<String>();
+
+    public PatientSearchAdviser() {
+        restrictedGetMethodNames.add("getPatients");
+        restrictedGetMethodNames.add("getPatient");
+        restrictedGetMethodNames.add("getPatientByUuid");
+    }
 
     @Override
     public boolean matches(Method method, Class targetClass) {
-        if (method.getName().equals("getPatients")) {
-            return true;
-        }
-        else if (method.getName().equals("getPatient")) {
-            return true;
-        }
-        else if (method.getName().equals("getPatientByUuid")) {
-            return true;
-        }
-        return false;
+        return restrictedGetMethodNames.contains(method.getName());
     }
 
     @Override

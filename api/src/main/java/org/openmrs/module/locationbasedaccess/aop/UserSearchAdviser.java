@@ -17,35 +17,27 @@ import org.openmrs.module.locationbasedaccess.aop.interceptor.UserServiceInterce
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 public class UserSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
     private static final Log log = LogFactory.getLog(UserSearchAdviser.class);
+    private Set<String> restrictedGetMethodNames = new HashSet<String>();
+
+    public UserSearchAdviser() {
+        restrictedGetMethodNames.add("getUsers");
+        restrictedGetMethodNames.add("getAllUsers");
+        restrictedGetMethodNames.add("getUser");
+        restrictedGetMethodNames.add("getUserByUuid");
+        restrictedGetMethodNames.add("getUserByUsername");
+        restrictedGetMethodNames.add("getUserByName");
+        restrictedGetMethodNames.add("getUsersByPerson");
+    }
 
     @Override
     public boolean matches(Method method, Class targetClass) {
-        if (method.getName().equals("getUsers")) {
-            return true;
-        }
-        else if (method.getName().equals("getAllUsers")) {
-            return true;
-        }
-        else if (method.getName().equals("getUser")) {
-            return true;
-        }
-        else if (method.getName().equals("getUserByUuid")) {
-            return true;
-        }
-        else if (method.getName().equals("getUserByUsername")) {
-            return true;
-        }
-        else if (method.getName().equals("getUserByName")) {
-            return true;
-        }
-        else if (method.getName().equals("getUsersByPerson")) {
-            return true;
-        }
-        return false;
+        return restrictedGetMethodNames.contains(method.getName());
     }
 
     @Override

@@ -23,7 +23,7 @@ import java.util.Set;
 public class LocationSearchAdviser extends StaticMethodMatcherPointcutAdvisor implements Advisor {
 
     private static final Log log = LogFactory.getLog(LocationSearchAdviser.class);
-    Set<String> restrictedGetMethodNames = new HashSet<String>();
+    private Set<String> restrictedGetMethodNames = new HashSet<String>();
 
     public LocationSearchAdviser() {
         restrictedGetMethodNames.add("getDefaultLocation");
@@ -38,10 +38,7 @@ public class LocationSearchAdviser extends StaticMethodMatcherPointcutAdvisor im
 
     @Override
     public boolean matches(Method method, Class targetClass) {
-        if(restrictedGetMethodNames.contains(method.getName())) {
-            return true;
-        }
-        return false;
+        return restrictedGetMethodNames.contains(method.getName());
     }
 
     @Override
