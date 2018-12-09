@@ -60,9 +60,9 @@ public class PatientSearchAdviserTest extends AOPContextSensitiveTest {
         Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
 
         List<Patient> patientList = patientService.getPatients("Patient");
-        assertEquals(patientList.size(), 3);
-        assertEquals(patientList.get(0).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
-        assertEquals(patientList.get(1).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location2.getUuid());
+        assertEquals(3, patientList.size());
+        assertEquals(location1.getUuid(), patientList.get(0).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue());
+        assertEquals(location2.getUuid(), patientList.get(1).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue());
         assertNull(patientList.get(2).getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
     }
 
@@ -82,11 +82,11 @@ public class PatientSearchAdviserTest extends AOPContextSensitiveTest {
 
         Patient patient2 = patientService.getPatient(3);
         assertNotNull(patient2);
-        assertEquals(patient2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        assertEquals(location1.getUuid(), patient2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue());
 
         Patient patient3 = patientService.getPatient(4);
         assertNotNull(patient3);
-        assertEquals(patient3.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location2.getUuid());
+        assertEquals(location2.getUuid(), patient3.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue());
     }
 
     @Test
@@ -105,11 +105,11 @@ public class PatientSearchAdviserTest extends AOPContextSensitiveTest {
 
         Patient patient2 = patientService.getPatientByUuid("5631b434-78aa-102b-91a0-001e378eb68e");
         assertNotNull(patient2);
-        assertEquals(patient2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        assertEquals(location1.getUuid(), patient2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue());
 
         Patient patient3 = patientService.getPatientByUuid("5631b434-78aa-102b-91a0-001e378eb69e");
         assertNotNull(patient3);
-        assertEquals(patient3.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location2.getUuid());
+        assertEquals(location2.getUuid(), patient3.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue());
     }
 
 
@@ -119,10 +119,10 @@ public class PatientSearchAdviserTest extends AOPContextSensitiveTest {
         Context.authenticate(normalUser.getUsername(), "userServiceTest");
         assertFalse(normalUser.isSuperUser());
 
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
 
         List<Patient> patientList = patientService.getPatients("Patient");
-        assertEquals(patientList.size(), 0);
+        assertEquals(0, patientList.size());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class PatientSearchAdviserTest extends AOPContextSensitiveTest {
         Context.authenticate(normalUser.getUsername(), "userServiceTest");
         assertFalse(normalUser.isSuperUser());
 
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
 
         Patient patient1 = patientService.getPatient(2);
         assertNull(patient1);
@@ -147,7 +147,7 @@ public class PatientSearchAdviserTest extends AOPContextSensitiveTest {
         Context.authenticate(normalUser.getUsername(), "userServiceTest");
         assertFalse(normalUser.isSuperUser());
 
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
 
         Patient patientA = patientService.getPatientByUuid("5631b434-78aa-102b-91a0-001e378eb67e");
         assertNull(patientA);
@@ -165,17 +165,17 @@ public class PatientSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
 
         List<Patient> patientList = patientService.getPatients("Patient");
-        assertEquals(patientList.size(), 1);
+        assertEquals(1, patientList.size());
 
         Patient patient = patientList.get(0);
         assertNotNull(patient.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID));
-        assertEquals(patient.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        assertEquals(location1.getUuid(), patient.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue());
     }
 
 
@@ -187,17 +187,17 @@ public class PatientSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
 
         Patient patient1 = patientService.getPatient(2);
         assertNull(patient1);
 
         Patient patient2 = patientService.getPatient(3);
         assertNotNull(patient2);
-        assertEquals(patient2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        assertEquals(location1.getUuid(), patient2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue());
 
         Patient patient3 = patientService.getPatient(4);
         assertNull(patient3);
@@ -211,17 +211,17 @@ public class PatientSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
 
         Patient patient1 = patientService.getPatientByUuid("5631b434-78aa-102b-91a0-001e378eb67e");
         assertNull(patient1);
 
         Patient patient2 = patientService.getPatientByUuid("5631b434-78aa-102b-91a0-001e378eb68e");
         assertNotNull(patient2);
-        assertEquals(patient2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue(), location1.getUuid());
+        assertEquals(location1.getUuid(), patient2.getAttribute(DEMO_PERSON_ATTRIBUTE_TYPE_ID).getValue());
 
         Patient patient3 = patientService.getPatientByUuid("5631b434-78aa-102b-91a0-001e378eb69e");
         assertNull(patient3);

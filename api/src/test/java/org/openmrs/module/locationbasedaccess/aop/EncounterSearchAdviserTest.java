@@ -84,35 +84,35 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
                 
         Encounter encounter1 = encounterService.getEncounter(1);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         
         Encounter encounter2 = encounterService.getEncounter(2);
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location2);
+        assertEquals(location2, encounter2.getLocation());
         
         Encounter encounter3 = encounterService.getEncounter(3);
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location1);
+        assertEquals(location1, encounter3.getLocation());
         
         Encounter encounter4 = encounterService.getEncounter(4);
         assertNotNull(encounter4);
-        assertEquals(encounter4.getLocation(),location1);
+        assertEquals(location1, encounter4.getLocation());
         
         Encounter encounter5 = encounterService.getEncounter(5);
         assertNotNull(encounter5);
-        assertEquals(encounter5.getLocation(),location2);
+        assertEquals(location2, encounter5.getLocation());
         
         Encounter encounter6 = encounterService.getEncounter(6);
         assertNotNull(encounter6);
-        assertEquals(encounter6.getLocation(),location2);
+        assertEquals(location2, encounter6.getLocation());
         
         Encounter encounter7 = encounterService.getEncounter(7);
         assertNotNull(encounter7);
-        assertEquals(encounter7.getLocation(),location2);
+        assertEquals(location2, encounter7.getLocation());
         
         Encounter encounter8 = encounterService.getEncounter(8);
         assertNotNull(encounter8);
-        assertEquals(encounter8.getLocation(),location2);
+        assertEquals(location2, encounter8.getLocation());
     }
     
     @Test
@@ -122,9 +122,9 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         assertFalse(normalUser.isSuperUser());
         assertNotNull(normalUser);
         
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
                 
         Encounter encounter1 = encounterService.getEncounter(1);
         assertNull(encounter1);
@@ -159,25 +159,25 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
                        
         Encounter encounter1 = encounterService.getEncounter(1);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1 , encounter1.getLocation() );
         
         Encounter encounter2 = encounterService.getEncounter(2);
         assertNull(encounter2);
        
         Encounter encounter3 = encounterService.getEncounter(3);
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location1);
+        assertEquals(location1 , encounter3.getLocation() );
         
         Encounter encounter4 = encounterService.getEncounter(4);
         assertNotNull(encounter4);
-        assertEquals(encounter4.getLocation(),location1);
+        assertEquals(location1, encounter4.getLocation());
         
         Encounter encounter5 = encounterService.getEncounter(5);
         assertNull(encounter5);
@@ -204,35 +204,35 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         Encounter encounter1 = encounterService.getEncounterByUuid("7519d653-393b-4118-9c83-a3715b82d4ac");
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1 , encounter1.getLocation());
         
         Encounter encounter2 = encounterService.getEncounterByUuid("8519d653-393b-4118-9c83-a3715b82d4ac");
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location2);
+        assertEquals(location2, encounter2.getLocation());
         
         Encounter encounter3 = encounterService.getEncounterByUuid("6519d653-393b-4118-9c83-a3715b82d4ac");
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location1);
+        assertEquals(location1, encounter3.getLocation());
         
         Encounter encounter4 = encounterService.getEncounterByUuid("eec646cb-c847-45a7-98bc-91c8c4f70add");
         assertNotNull(encounter4);
-        assertEquals(encounter4.getLocation(),location1);
+        assertEquals(location1, encounter4.getLocation());
         
         Encounter encounter5 = encounterService.getEncounterByUuid("e403fafb-e5e4-42d0-9d11-4f52e89d148c");
         assertNotNull(encounter5);
-        assertEquals(encounter5.getLocation(),location2);
+        assertEquals(location2, encounter5.getLocation());
         
         Encounter encounter6 = encounterService.getEncounterByUuid("y403fafb-e5e4-42d0-9d11-4f52e89d123r");
         assertNotNull(encounter6);
-        assertEquals(encounter6.getLocation(),location2);
+        assertEquals(location2, encounter6.getLocation());
         
         Encounter encounter7 = encounterService.getEncounterByUuid("9519d653-393b-4118-9c83-a3715b82d4ac");
         assertNotNull(encounter7);
-        assertEquals(encounter7.getLocation(),location2);
+        assertEquals(location2,encounter7.getLocation());
         
         Encounter encounter8 = encounterService.getEncounterByUuid("0619d653-393b-4118-9c83-a3715b82d4ac");
         assertNotNull(encounter8);
-        assertEquals(encounter8.getLocation(),location2);
+        assertEquals(location2, encounter8.getLocation());
     }
     
     @Test
@@ -242,9 +242,9 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         assertFalse(normalUser.isSuperUser());
         assertNotNull(normalUser);
         
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Encounter encounter1 = encounterService.getEncounterByUuid("7519d653-393b-4118-9c83-a3715b82d4ac");
         assertNull(encounter1);
@@ -279,25 +279,25 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
               
         Encounter encounter1 = encounterService.getEncounterByUuid("7519d653-393b-4118-9c83-a3715b82d4ac");
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         
         Encounter encounter2 = encounterService.getEncounterByUuid("8519d653-393b-4118-9c83-a3715b82d4ac");
         assertNull(encounter2);
         
         Encounter encounter3 = encounterService.getEncounterByUuid("6519d653-393b-4118-9c83-a3715b82d4ac");
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location1);
+        assertEquals(location1, encounter3.getLocation());
         
         Encounter encounter4 = encounterService.getEncounterByUuid("eec646cb-c847-45a7-98bc-91c8c4f70add");
         assertNotNull(encounter4);
-        assertEquals(encounter4.getLocation(),location1);
+        assertEquals(location1, encounter4.getLocation());
         
         Encounter encounter5 = encounterService.getEncounterByUuid("e403fafb-e5e4-42d0-9d11-4f52e89d148c");
         assertNull(encounter5);
@@ -325,36 +325,36 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         Patient patient1 = patientService.getPatient(2);
         EncounterSearchCriteria esc1 = new EncounterSearchCriteria(patient1,null,null,null,null,null,null,null,null,null,false);
         List<Encounter> encounterList1 = encounterService.getEncounters(esc1);
-        assertEquals(encounterList1.size(),5);
+        assertEquals(5, encounterList1.size());
         Encounter encounter1 = encounterList1.get(0);
         Encounter encounter2 = encounterList1.get(1);
         Encounter encounter3 = encounterList1.get(2);
         Encounter encounter4 = encounterList1.get(3);
         Encounter encounter5 = encounterList1.get(4);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location2);
+        assertEquals(location2, encounter2.getLocation());
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location2);
+        assertEquals(location2, encounter3.getLocation());
         assertNotNull(encounter4);
-        assertEquals(encounter4.getLocation(),location2);
+        assertEquals(location2, encounter4.getLocation());
         assertNotNull(encounter5);
-        assertEquals(encounter5.getLocation(),location2);
+        assertEquals(location2, encounter5.getLocation());
         
         Patient patient2 = patientService.getPatient(7);
         EncounterSearchCriteria esc2 = new EncounterSearchCriteria(patient2,null,null,null,null,null,null,null,null,null,false);
         List<Encounter> encounterList2 = encounterService.getEncounters(esc2);
-        assertEquals(encounterList2.size(),3);
+        assertEquals(3, encounterList2.size());
         Encounter encounter6 = encounterList2.get(0);
         Encounter encounter7 = encounterList2.get(1);
         Encounter encounter8 = encounterList2.get(2);
         assertNotNull(encounter6);
-        assertEquals(encounter6.getLocation(),location1);
+        assertEquals(location1, encounter6.getLocation());
         assertNotNull(encounter7);
-        assertEquals(encounter7.getLocation(),location1);
+        assertEquals(location1, encounter7.getLocation());
         assertNotNull(encounter8);
-        assertEquals(encounter8.getLocation(),location2);
+        assertEquals(location2, encounter8.getLocation());
     }
     
     @Test
@@ -364,19 +364,19 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         assertFalse(normalUser.isSuperUser());
         assertNotNull(normalUser);
         
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Patient patient1 = patientService.getPatient(2);
         EncounterSearchCriteria esc1 = new EncounterSearchCriteria(patient1,null,null,null,null,null,null,null,null,null,false);
         List<Encounter> encounterList1 = encounterService.getEncounters(esc1);
-        assertEquals(encounterList1.size(),0);
+        assertEquals(0 , encounterList1.size());
         
         Patient patient2 = patientService.getPatient(7);
         EncounterSearchCriteria esc2 = new EncounterSearchCriteria(patient2,null,null,null,null,null,null,null,null,null,false);
         List<Encounter> encounterList2 = encounterService.getEncounters(esc2);
-        assertEquals(encounterList2.size(),0);
+        assertEquals(0, encounterList2.size());
     }
     
     @Test
@@ -387,29 +387,29 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
         
         Patient patient1 = patientService.getPatient(2);
         EncounterSearchCriteria esc1 = new EncounterSearchCriteria(patient1,null,null,null,null,null,null,null,null,null,false);
         List<Encounter> encounterList1 = encounterService.getEncounters(esc1);
-        assertEquals(encounterList1.size(),1);
+        assertEquals(1, encounterList1.size());
         Encounter encounter1 = encounterList1.get(0);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         
         Patient patient2 = patientService.getPatient(7);
         EncounterSearchCriteria esc2 = new EncounterSearchCriteria(patient2,null,null,null,null,null,null,null,null,null,false);
         List<Encounter> encounterList2 = encounterService.getEncounters(esc2);
-        assertEquals(encounterList2.size(),2);
+        assertEquals(2,encounterList2.size());
         Encounter encounter2 = encounterList2.get(0);
         Encounter encounter3 = encounterList2.get(1);
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location1);
+        assertEquals(location1, encounter2.getLocation());
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location1);
+        assertEquals(location1, encounter3.getLocation());
     }
     
     @Test
@@ -423,34 +423,34 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
         
         List<Encounter> encounterList1 = encounterService.getEncountersByPatientId(2);
-        assertEquals(encounterList1.size(),5);
+        assertEquals(5, encounterList1.size());
         Encounter encounter1 = encounterList1.get(0);
         Encounter encounter2 = encounterList1.get(1);
         Encounter encounter3 = encounterList1.get(2);
         Encounter encounter4 = encounterList1.get(3);
         Encounter encounter5 = encounterList1.get(4);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location2);
+        assertEquals(location2, encounter1.getLocation());
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location1);
+        assertEquals(location1, encounter2.getLocation());
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location2);
+        assertEquals(location2, encounter3.getLocation());
         assertNotNull(encounter4);
-        assertEquals(encounter4.getLocation(),location2);
+        assertEquals(location2, encounter4.getLocation());
         assertNotNull(encounter5);
-        assertEquals(encounter5.getLocation(),location2);
+        assertEquals(location2, encounter5.getLocation());
         
         List<Encounter> encounterList2 = encounterService.getEncountersByPatientId(7);
-        assertEquals(encounterList2.size(),3);
+        assertEquals(3, encounterList2.size());
         Encounter encounter6 = encounterList2.get(0);
         Encounter encounter7 = encounterList2.get(1);
         Encounter encounter8 = encounterList2.get(2);
         assertNotNull(encounter6);
-        assertEquals(encounter6.getLocation(),location2);
+        assertEquals(location2, encounter6.getLocation());
         assertNotNull(encounter7);
-        assertEquals(encounter7.getLocation(),location1);
+        assertEquals(location1, encounter7.getLocation());
         assertNotNull(encounter8);
-        assertEquals(encounter8.getLocation(),location1);
+        assertEquals(location1, encounter8.getLocation());
     }
             
     @Test
@@ -460,15 +460,15 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         assertFalse(normalUser.isSuperUser());
         assertNotNull(normalUser);
         
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         List<Encounter> encounterList1 = encounterService.getEncountersByPatientId(2);
-        assertEquals(encounterList1.size(),0);
+        assertEquals(0, encounterList1.size());
         
         List<Encounter> encounterList2 = encounterService.getEncountersByPatientId(7);
-        assertEquals(encounterList2.size(),0);           
+        assertEquals(0, encounterList2.size());           
     }
             
     @Test
@@ -479,25 +479,25 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
         
         List<Encounter> encounterList1 = encounterService.getEncountersByPatientId(2);
-        assertEquals(encounterList1.size(),1);
+        assertEquals(1, encounterList1.size());
         Encounter encounter1 = encounterList1.get(0);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         
         List<Encounter> encounterList2 = encounterService.getEncountersByPatientId(7);
-        assertEquals(encounterList2.size(),2);
+        assertEquals(2, encounterList2.size());
         Encounter encounter2 = encounterList2.get(0);
         Encounter encounter3 = encounterList2.get(1);
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location1);
+        assertEquals(location1, encounter2.getLocation());
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location1);
+        assertEquals(location1, encounter3.getLocation());
     }
     
     @Test
@@ -512,35 +512,35 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         Patient patient1 = patientService.getPatient(2);
         List<Encounter> encounterList1 = encounterService.getEncountersByPatient(patient1);
-        assertEquals(encounterList1.size(),5);
+        assertEquals(5, encounterList1.size());
         Encounter encounter1 = encounterList1.get(0);
         Encounter encounter2 = encounterList1.get(1);
         Encounter encounter3 = encounterList1.get(2);
         Encounter encounter4 = encounterList1.get(3);
         Encounter encounter5 = encounterList1.get(4);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location2);
+        assertEquals(location2, encounter2.getLocation());
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location2);
+        assertEquals(location2, encounter3.getLocation());
         assertNotNull(encounter4);
-        assertEquals(encounter4.getLocation(),location2);
+        assertEquals(location2, encounter4.getLocation());
         assertNotNull(encounter5);
-        assertEquals(encounter5.getLocation(),location2);
+        assertEquals(location2, encounter5.getLocation());
         
         Patient patient2 = patientService.getPatient(7);
         List<Encounter> encounterList2 = encounterService.getEncountersByPatient(patient2);
-        assertEquals(encounterList2.size(),3);
+        assertEquals(3, encounterList2.size());
         Encounter encounter6 = encounterList2.get(0);
         Encounter encounter7 = encounterList2.get(1);
         Encounter encounter8 = encounterList2.get(2);
         assertNotNull(encounter6);
-        assertEquals(encounter6.getLocation(),location1);
+        assertEquals(location1, encounter6.getLocation());
         assertNotNull(encounter7);
-        assertEquals(encounter7.getLocation(),location1);
+        assertEquals(location1, encounter7.getLocation());
         assertNotNull(encounter8);
-        assertEquals(encounter8.getLocation(),location2);
+        assertEquals(location2, encounter8.getLocation());
     }
     
     @Test
@@ -550,17 +550,17 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         assertFalse(normalUser.isSuperUser());
         assertNotNull(normalUser);
         
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Patient patient1 = patientService.getPatient(2);
         List<Encounter> encounterList1 = encounterService.getEncountersByPatient(patient1);
-        assertEquals(encounterList1.size(),0);
+        assertEquals(0, encounterList1.size());
         
         Patient patient2 = patientService.getPatient(7);
         List<Encounter> encounterList2 = encounterService.getEncountersByPatient(patient2);
-        assertEquals(encounterList2.size(),0);           
+        assertEquals(0, encounterList2.size());           
     }
     
     @Test
@@ -571,27 +571,27 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
         
         Patient patient1 = patientService.getPatient(2);
         List<Encounter> encounterList1 = encounterService.getEncountersByPatient(patient1);
-        assertEquals(encounterList1.size(),1);
+        assertEquals(1, encounterList1.size());
         Encounter encounter1 = encounterList1.get(0);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         
         Patient patient2 = patientService.getPatient(7);
         List<Encounter> encounterList2 = encounterService.getEncountersByPatient(patient2);
-        assertEquals(encounterList2.size(),2);
+        assertEquals(2, encounterList2.size());
         Encounter encounter2 = encounterList2.get(0);
         Encounter encounter3 = encounterList2.get(1);
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location1);
+        assertEquals(location1, encounter2.getLocation());
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location1);
+        assertEquals(location1, encounter3.getLocation());
     }
     
     @Test
@@ -606,20 +606,20 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         Visit visit1 = visitService.getVisit(1);
         List<Encounter> encounterList1 = encounterService.getEncountersByVisit(visit1,false);
-        assertEquals(encounterList1.size(),2);
+        assertEquals(2, encounterList1.size());
         Encounter encounter1 = encounterList1.get(0);
         Encounter encounter2 = encounterList1.get(1);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location2);
+        assertEquals(location2, encounter2.getLocation());
         
         Visit visit2 = visitService.getVisit(2);
         List<Encounter> encounterList2 = encounterService.getEncountersByVisit(visit2,false);
-        assertEquals(encounterList2.size(),1);
+        assertEquals(1, encounterList2.size());
         Encounter encounter3 = encounterList2.get(0);
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location2);
+        assertEquals(location2, encounter3.getLocation());
     }
     
     @Test
@@ -629,17 +629,17 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         assertFalse(normalUser.isSuperUser());
         assertNotNull(normalUser);
         
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Visit visit1 = visitService.getVisit(1);
         List<Encounter> encounterList1 = encounterService.getEncountersByVisit(visit1,false);
-        assertEquals(encounterList1.size(),0);
+        assertEquals(0, encounterList1.size());
         
         Visit visit2 = visitService.getVisit(2);
         List<Encounter> encounterList2 = encounterService.getEncountersByVisit(visit2,false);
-        assertEquals(encounterList2.size(),0);             
+        assertEquals(0, encounterList2.size());             
     }
     
     @Test
@@ -650,21 +650,21 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
         
         Visit visit1 = visitService.getVisit(1);
         List<Encounter> encounterList1 = encounterService.getEncountersByVisit(visit1,false);
-        assertEquals(encounterList1.size(),1);
+        assertEquals(1, encounterList1.size());
         Encounter encounter1 = encounterList1.get(0);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         
         Visit visit2 = visitService.getVisit(2);
         List<Encounter> encounterList2 = encounterService.getEncountersByVisit(visit2,false);
-        assertEquals(encounterList2.size(),0);
+        assertEquals(0, encounterList2.size());
     }
     
     @Test
@@ -679,26 +679,26 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         Patient patient1 = patientService.getPatient(2);
         List<Encounter> encounterList1 = encounterService.getEncountersNotAssignedToAnyVisit(patient1);
-        assertEquals(encounterList1.size(),2);
+        assertEquals(2, encounterList1.size());
         Encounter encounter1 = encounterList1.get(0);
         Encounter encounter2 = encounterList1.get(1);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location2);
+        assertEquals(location2, encounter1.getLocation());
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location2);
+        assertEquals(location2, encounter2.getLocation());
         
         Patient patient2 = patientService.getPatient(7);
         List<Encounter> encounterList2 = encounterService.getEncountersNotAssignedToAnyVisit(patient2);
-        assertEquals(encounterList2.size(),3);
+        assertEquals(3, encounterList2.size());
         Encounter encounter3 = encounterList2.get(0);
         Encounter encounter4 = encounterList2.get(1);
         Encounter encounter5 = encounterList2.get(2);
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location2);
+        assertEquals(location2 , encounter3.getLocation());
         assertNotNull(encounter4);
-        assertEquals(encounter4.getLocation(),location1);
+        assertEquals(location1, encounter4.getLocation());
         assertNotNull(encounter5);
-        assertEquals(encounter5.getLocation(),location1);       
+        assertEquals(location1, encounter5.getLocation());       
     }
     
     @Test
@@ -708,17 +708,17 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         assertFalse(normalUser.isSuperUser());       
         assertNotNull(normalUser);
         
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Patient patient1 = patientService.getPatient(2);
         List<Encounter> encounterList1 = encounterService.getEncountersNotAssignedToAnyVisit(patient1);
-        assertEquals(encounterList1.size(),0);
+        assertEquals(0, encounterList1.size());
 
         Patient patient2 = patientService.getPatient(7);
         List<Encounter> encounterList2 = encounterService.getEncountersNotAssignedToAnyVisit(patient2);
-        assertEquals(encounterList2.size(),0);            
+        assertEquals(0, encounterList2.size());            
     }
     
     @Test
@@ -729,24 +729,24 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
         
         Patient patient1 = patientService.getPatient(2);
         List<Encounter> encounterList1 = encounterService.getEncountersNotAssignedToAnyVisit(patient1);
-        assertEquals(encounterList1.size(),0);
+        assertEquals(0, encounterList1.size());
         
         Patient patient2 = patientService.getPatient(7);
         List<Encounter> encounterList2 = encounterService.getEncountersNotAssignedToAnyVisit(patient2);
-        assertEquals(encounterList2.size(),2);
+        assertEquals(2, encounterList2.size());
         Encounter encounter1 = encounterList2.get(0);
         Encounter encounter2 = encounterList2.get(1);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location1);
+        assertEquals(location1, encounter2.getLocation());
     }
     
     @Test
@@ -761,22 +761,22 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         Patient patient = patientService.getPatient(2);
         List<Encounter> encounterList = encounterService.getEncountersByVisitsAndPatient(patient,true,null,0,5);
-        assertEquals(encounterList.size(),5);
+        assertEquals(5, encounterList.size());
         Encounter encounter1 = encounterList.get(0);
         Encounter encounter2 = encounterList.get(1);
         Encounter encounter3 = encounterList.get(2);
         Encounter encounter4 = encounterList.get(3);
         Encounter encounter5 = encounterList.get(4);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location2);
+        assertEquals(location2, encounter1.getLocation());
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location2);
+        assertEquals(location2, encounter2.getLocation());
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location2);
+        assertEquals(location2, encounter3.getLocation());
         assertNotNull(encounter4);
-        assertEquals(encounter4.getLocation(),location2);
+        assertEquals(location2, encounter4.getLocation());
         assertNotNull(encounter5);
-        assertEquals(encounter5.getLocation(),location1);
+        assertEquals(location1, encounter5.getLocation());
     }
     
     @Test
@@ -786,13 +786,13 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         assertFalse(normalUser.isSuperUser());
         assertNotNull(normalUser);
         
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Patient patient = patientService.getPatient(2);
         List<Encounter> encounterList = encounterService.getEncountersByVisitsAndPatient(patient,true,null,0,5);
-        assertEquals(encounterList.size(),0);           
+        assertEquals(0, encounterList.size());           
     }
     
     @Test
@@ -803,17 +803,17 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());        
+        assertEquals(location1.getUuid(), locationUserProperty );        
         
         Patient patient = patientService.getPatient(2);
         List<Encounter> encounterList = encounterService.getEncountersByVisitsAndPatient(patient,true,null,0,5);
-        assertEquals(encounterList.size(),1);
+        assertEquals(1, encounterList.size());
         Encounter encounter = encounterList.get(0);
         assertNotNull(encounter);
-        assertEquals(encounter.getLocation(),location1);
+        assertEquals(location1, encounter.getLocation());
     }
     
     @Test
@@ -829,8 +829,8 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         List<Integer> patientIds = Arrays.asList(2,7);
         Cohort cohort = new Cohort(patientIds);
         Map<Integer, List<Encounter>> encounterMap = encounterService.getAllEncounters(cohort);
-        assertEquals(encounterMap.get(2).size(),5);
-        assertEquals(encounterMap.get(7).size(),3);
+        assertEquals(5, encounterMap.get(2).size());
+        assertEquals(3, encounterMap.get(7).size());
         Encounter encounter1 = encounterMap.get(2).get(0);
         Encounter encounter2 = encounterMap.get(2).get(1);
         Encounter encounter3 = encounterMap.get(2).get(2);
@@ -840,21 +840,21 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         Encounter encounter7 = encounterMap.get(7).get(1);
         Encounter encounter8 = encounterMap.get(7).get(2);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location2);
+        assertEquals(location2, encounter1.getLocation());
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location1);
+        assertEquals(location1, encounter2.getLocation());
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location2);
+        assertEquals(location2, encounter3.getLocation());
         assertNotNull(encounter4);
-        assertEquals(encounter4.getLocation(),location2);
+        assertEquals(location2, encounter4.getLocation());
         assertNotNull(encounter5);
-        assertEquals(encounter5.getLocation(),location2);
+        assertEquals(location2, encounter5.getLocation());
         assertNotNull(encounter6);
-        assertEquals(encounter6.getLocation(),location2);
+        assertEquals(location2, encounter6.getLocation());
         assertNotNull(encounter7);
-        assertEquals(encounter7.getLocation(),location1);
+        assertEquals(location1, encounter7.getLocation());
         assertNotNull(encounter8);
-        assertEquals(encounter8.getLocation(),location1);       
+        assertEquals(location1, encounter8.getLocation());       
     }
     
     @Test
@@ -864,15 +864,15 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         assertFalse(normalUser.isSuperUser());
         assertNotNull(normalUser);
         
-        assertEquals(normalUser.getUserProperties().size(), 0);
+        assertEquals(0, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         List<Integer> patientIds = Arrays.asList(2,7);
         Cohort cohort = new Cohort(patientIds);
         Map<Integer, List<Encounter>> encounterMap = encounterService.getAllEncounters(cohort);
-        assertEquals(encounterMap.get(2).size(),0);
-        assertEquals(encounterMap.get(7).size(),0); 
+        assertEquals(0, encounterMap.get(2).size());
+        assertEquals(0, encounterMap.get(7).size()); 
     }
     
     @Test
@@ -883,24 +883,24 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
 
         Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 
-        assertEquals(normalUser.getUserProperties().size(), 1);
+        assertEquals(1, normalUser.getUserProperties().size());
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
         assertNotNull(locationUserProperty);
-        assertEquals(locationUserProperty, location1.getUuid());
+        assertEquals(location1.getUuid(), locationUserProperty);
         
         List<Integer> patientIds = Arrays.asList(2,7);
         Cohort cohort = new Cohort(patientIds);
         Map<Integer, List<Encounter>> encounterMap = encounterService.getAllEncounters(cohort);
-        assertEquals(encounterMap.get(2).size(),1);
-        assertEquals(encounterMap.get(7).size(),2);
+        assertEquals(1, encounterMap.get(2).size());
+        assertEquals(2, encounterMap.get(7).size());
         Encounter encounter1 = encounterMap.get(2).get(0);
         Encounter encounter2 = encounterMap.get(7).get(0);
         Encounter encounter3 = encounterMap.get(7).get(1);
         assertNotNull(encounter1);
-        assertEquals(encounter1.getLocation(),location1);
+        assertEquals(location1, encounter1.getLocation());
         assertNotNull(encounter2);
-        assertEquals(encounter2.getLocation(),location1);
+        assertEquals(location1, encounter2.getLocation());
         assertNotNull(encounter3);
-        assertEquals(encounter3.getLocation(),location1); 
+        assertEquals(location1, encounter3.getLocation()); 
     }
 }
