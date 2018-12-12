@@ -124,7 +124,7 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         assertEquals(normalUser.getUserProperties().size(), 0);
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
                 
         Encounter encounter1 = encounterService.getEncounter(1);
         assertNull(encounter1);
@@ -244,7 +244,7 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         assertEquals(normalUser.getUserProperties().size(), 0);
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Encounter encounter1 = encounterService.getEncounterByUuid("7519d653-393b-4118-9c83-a3715b82d4ac");
         assertNull(encounter1);
@@ -366,7 +366,7 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         assertEquals(normalUser.getUserProperties().size(), 0);
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Patient patient1 = patientService.getPatient(2);
         EncounterSearchCriteria esc1 = new EncounterSearchCriteria(patient1,null,null,null,null,null,null,null,null,null,false);
@@ -462,7 +462,7 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         assertEquals(normalUser.getUserProperties().size(), 0);
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         List<Encounter> encounterList1 = encounterService.getEncountersByPatientId(2);
         assertEquals(encounterList1.size(),0);
@@ -552,7 +552,7 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         assertEquals(normalUser.getUserProperties().size(), 0);
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Patient patient1 = patientService.getPatient(2);
         List<Encounter> encounterList1 = encounterService.getEncountersByPatient(patient1);
@@ -631,7 +631,7 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         assertEquals(normalUser.getUserProperties().size(), 0);
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Visit visit1 = visitService.getVisit(1);
         List<Encounter> encounterList1 = encounterService.getEncountersByVisit(visit1,false);
@@ -710,7 +710,7 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         assertEquals(normalUser.getUserProperties().size(), 0);
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Patient patient1 = patientService.getPatient(2);
         List<Encounter> encounterList1 = encounterService.getEncountersNotAssignedToAnyVisit(patient1);
@@ -788,7 +788,7 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         assertEquals(normalUser.getUserProperties().size(), 0);
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         Patient patient = patientService.getPatient(2);
         List<Encounter> encounterList = encounterService.getEncountersByVisitsAndPatient(patient,true,null,0,5);
@@ -866,7 +866,7 @@ public class EncounterSearchAdviserTest extends AOPContextSensitiveTest {
         
         assertEquals(normalUser.getUserProperties().size(), 0);
         String locationUserProperty = normalUser.getUserProperty("locationUuid");
-        assertNotNull(locationUserProperty,"");
+        assertNotNull(locationUserProperty);
         
         List<Integer> patientIds = Arrays.asList(2,7);
         Cohort cohort = new Cohort(patientIds);
