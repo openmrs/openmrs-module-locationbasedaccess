@@ -16,4 +16,8 @@ public class LocationBasedAccessConstants {
     public static final  String LOCATION_USER_PROPERTY_NAME = "locationUuid";
 
     public static final String REF_APP_LOCATION_USER_PROPERTY_NAME = "referenceapplication.locationUserPropertyName";
+    public static final String PERSONATTRIBUTETYPE_NAME = "LocationAttribute";
+    public static final String PERSONATTRIBUTETYPE_FORMAT = "java.lang.String";
+    public static final String PERSONATTRIBUTETYPE_UUID = "0a93cbc6-5d65-4886-8091-47a25d3df944";
+
 }

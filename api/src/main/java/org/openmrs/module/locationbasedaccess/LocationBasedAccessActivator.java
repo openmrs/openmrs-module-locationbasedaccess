@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.openmrs.module.BaseModuleActivator;
 import org.openmrs.module.ModuleActivator;
+import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
 
 public class LocationBasedAccessActivator extends BaseModuleActivator {
 
@@ -47,22 +48,30 @@ public class LocationBasedAccessActivator extends BaseModuleActivator {
      * @see ModuleActivator#started()
      */
     public void started() {
-        String locationUserPropertyName = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.REF_APP_LOCATION_USER_PROPERTY_NAME);
-        if(StringUtils.isBlank(locationUserPropertyName)) {
-            Context.getAdministrationService().setGlobalProperty(LocationBasedAccessConstants.REF_APP_LOCATION_USER_PROPERTY_NAME,
-                    LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
-            if(log.isDebugEnabled()) {
-                log.debug("RefApp Location global property created with value - " + LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
-            }
-        }
-        else if(StringUtils.isNotBlank(locationUserPropertyName) && !locationUserPropertyName.equals(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME)) {
-            log.warn("RefApp Location global property already exist in the system with different value(" + locationUserPropertyName +
-                    "). Exiting from creating new global property with the value " + LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
-        }
-        log.info("Location Based Access Control Module started");
+		LocationUtils.createPersonAttributeTypeForLocation();
+	    createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME,
+			    LocationBasedAccessConstants.PERSONATTRIBUTETYPE_UUID);
+	    createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.REF_APP_LOCATION_USER_PROPERTY_NAME,
+			    LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
+	    log.info("Location Based Access Control Module started");
     }
 
-    /**
+	private void createGlobalPropertyForLocationAttribute(String key, String value) {
+		String locationUserPropertyName = Context.getAdministrationService().getGlobalProperty(key);
+		if (StringUtils.isBlank(locationUserPropertyName)) {
+			Context.getAdministrationService().setGlobalProperty(key, value);
+			if (log.isDebugEnabled()) {
+				log.debug("RefApp Location global property created with value - "
+						+ value);
+			}
+		} else if (StringUtils.isNotBlank(locationUserPropertyName) && !locationUserPropertyName.equals(value)) {
+			log.warn("RefApp Location global property already exist in the system with different value("
+					+ locationUserPropertyName +
+					"). Exiting from creating new global property with the value " + value);
+		}
+	}
+
+	/**
      * @see ModuleActivator#willStop()
      */
     public void willStop() {

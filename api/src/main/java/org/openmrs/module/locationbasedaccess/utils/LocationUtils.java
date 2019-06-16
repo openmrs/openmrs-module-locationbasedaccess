@@ -79,4 +79,15 @@ public class LocationUtils {
         }
         return accessibleLocationUuid;
     }
+
+    public static void createPersonAttributeTypeForLocation() {
+        if(null == Context.getPersonService().getPersonAttributeTypeByUuid(LocationBasedAccessConstants.PERSONATTRIBUTETYPE_UUID)){
+            PersonAttributeType personAttributeType = new PersonAttributeType();
+            personAttributeType.setName(LocationBasedAccessConstants.PERSONATTRIBUTETYPE_NAME);
+            personAttributeType.setFormat(LocationBasedAccessConstants.PERSONATTRIBUTETYPE_FORMAT);
+            personAttributeType.setUuid(LocationBasedAccessConstants.PERSONATTRIBUTETYPE_UUID);
+            Context.getPersonService().savePersonAttributeType(personAttributeType);
+        }
+    }
+    
 }
