@@ -10,6 +10,10 @@
 <dataset>
     <person_attribute_type person_attribute_type_id="10" name="accessLocation" description="Access Location" format="java.lang.String" searchable="false" creator="1" date_created="2007-05-03 09:20:37.0" uuid="cdc6a460-2700-102b-80cb-0017a47871b3" retired="false" sort_weight="1"/>
     <global_property property="locationbasedaccess.locationAttributeUuid" property_value="cdc6a460-2700-102b-80cb-0017a47871b3" uuid="4ed94d61-a3d8-4fc4-a96f-4d2bfbb3b3tf" />
+    <global_property property="locationbasedaccess.access.patient" property_value="true" uuid="4ed94d61-a3d8-4fc4-a96f-4d2bfbb3b4tf" />
+    <global_property property="locationbasedaccess.access.person" property_value="true" uuid="4ed94d61-a3d8-4fc4-a96f-4d2bfbb3b5tf" />
+    <global_property property="locationbasedaccess.access.user" property_value="true" uuid="4ed94d61-a3d8-4fc4-a96f-4d2bfbb3b6tf" />
+    <global_property property="locationbasedaccess.access.encounter" property_value="true" uuid="4ed94d61-a3d8-4fc4-a96f-4d2bfbb3b7tf" />
     <visit_type visit_type_id="1" name="Initial HIV Clinic Visit" description="Initial HIV Clinic Visit Description" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" uuid="c0c579b0-8e59-401d-8a4a-976a0b183519"/>
     <encounter_role encounter_role_id="1" name="Unknown" description="Unknown encounter role for legacy providers with no encounter role set" creator="1" retired="false" date_created="2011-08-18 14:00:00.0" uuid="a0b03050-c99b-11e0-9572-0800200c9a66" />
     <encounter_type encounter_type_id="1" name="Scheduled" description="Scheduled Visit" creator="1" date_created="2005-02-24 00:00:00.0" retired="false" uuid="61ae96f4-6afe-4351-b6f8-cd4fc383cce1"/>

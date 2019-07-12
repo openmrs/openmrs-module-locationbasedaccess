@@ -14,6 +14,7 @@
     <users user_id="1" person_id="1" system_id="1-8" username="admin" password="4a1750c8607d0fa237de36c6305715c223415189" salt="c788c6ad82a157b712392ca695dfcf2eed193d7f" secret_question="" creator="1" date_created="2005-01-01 00:00:00.0" changed_by="1" date_changed="2007-09-20 21:54:12.0" retired="false" retire_reason="" uuid="1010d442-e134-11de-babe-001e378eb67e"/>
     <users user_id="0" person_id="1" system_id="daemon" creator="1" date_created="2005-01-01 00:00:00.0" retired="false" retire_reason="" uuid="A4F30A1B-5EB9-11DF-A648-37A07F9C90FB"/>
     <user_role user_id="1" role="System Developer"/>
+    <global_property property="locationbasedaccess.access.location" property_value="true" uuid="4ed94d61-a3d8-4fc4-a96f-4d2bfbb3b3tf" />
 
     <role role="userRole" description="This is a test parent role" uuid="8de52b9e-e07d-4978-ba4a-a3828c13e489"/>
     <privilege privilege="Get Locations" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f50"/>

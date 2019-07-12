@@ -35,7 +35,8 @@ public class PatientServiceInterceptorAdvice implements MethodInterceptor {
             return null;
         }
         Object object = invocation.proceed();
-        if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
+        String lbacRestriction = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.PATIENT_RESTRICTION_GLOBAL_PROPERTY_NAME);
+        if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser() || !(lbacRestriction.equals("true"))) {
             return object;
         }
 
