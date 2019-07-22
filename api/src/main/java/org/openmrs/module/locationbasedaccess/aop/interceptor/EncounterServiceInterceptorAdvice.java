@@ -18,6 +18,7 @@ import org.openmrs.Location;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.Daemon;
+import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
 import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
 
 import java.util.ArrayList;
@@ -89,6 +90,10 @@ public class EncounterServiceInterceptorAdvice implements MethodInterceptor {
 
     public static Boolean doesEncounterBelongToGivenLocation(Encounter encounter, String sessionLocationUuid) {
         Location location = encounter.getLocation();
+        String encounterAccessType = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.ENCOUNTER_RESTRICTION_TYPE_ENCOUNTER_LOCATION);
+        if(LocationBasedAccessConstants.ENCOUNTER_RESTRICTION_TYPE_PATIENT_LOCATION ==encounterAccessType) {
+            location = LocationUtils.getPersonLocation(encounter.getPatient());
+        }
         return (location != null && LocationUtils.compare(location.getUuid(), sessionLocationUuid));
     }
 }

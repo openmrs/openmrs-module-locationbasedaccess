@@ -14,6 +14,8 @@ public class LocationBasedAccessConstants {
 
     public static final  String LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME = "locationbasedaccess.locationAttributeUuid";
     public static final  String LOCATION_USER_PROPERTY_NAME = "locationUuid";
+    public static final String ENCOUNTER_RESTRICTION_TYPE_PATIENT_LOCATION = "patientLocation";
+    public static final String ENCOUNTER_RESTRICTION_TYPE_ENCOUNTER_LOCATION = "encounterLocation";
 
     public static final String REF_APP_LOCATION_USER_PROPERTY_NAME = "referenceapplication.locationUserPropertyName";
     public static final String PERSONATTRIBUTETYPE_NAME = "LocationAttribute";
