@@ -48,19 +48,19 @@ public class LocationServiceInterceptorAdvice implements MethodInterceptor {
         }
 
         if(restrictedGetMethodNames.contains(method.getName())) {
-            String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
-            if (accessibleLocationUuid != null) {
+            List<String> accessibleLocationUuids = LocationUtils.getUserAccessibleLocationUuids(authenticatedUser);
+            if (accessibleLocationUuids != null) {
                 if(object instanceof List) {
                     List<Location> locationList = (List<Location>) object;
                     for (Iterator<Location> iterator = locationList.iterator(); iterator.hasNext(); ) {
-                        if(!LocationUtils.compare(accessibleLocationUuid, iterator.next().getUuid())) {
+                        if(!accessibleLocationUuids.contains(iterator.next().getUuid())) {
                             iterator.remove();
                         }
                     }
                     object = locationList;
                 }
                 else if(object instanceof Location) {
-                    if(!LocationUtils.compare(accessibleLocationUuid, ((Location)object).getUuid())) {
+                    if(!accessibleLocationUuids.contains(((Location)object).getUuid())) {
                         object = null;
                     }
                 }

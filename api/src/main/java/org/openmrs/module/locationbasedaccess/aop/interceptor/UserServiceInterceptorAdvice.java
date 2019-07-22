@@ -34,13 +34,13 @@ public class UserServiceInterceptorAdvice implements MethodInterceptor {
         if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
             return object;
         }
-        String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
-        if (accessibleLocationUuid != null) {
+        List<String> accessibleLocationUuids = LocationUtils.getUserAccessibleLocationUuids(authenticatedUser);
+        if (accessibleLocationUuids != null) {
             if(object instanceof List) {
                 List<User> userList = (List<User>) object;
                 for (Iterator<User> iterator = userList.iterator(); iterator.hasNext(); ) {
                     User user = iterator.next();
-                    if (!LocationUtils.doesUserBelongToGivenLocation(user, accessibleLocationUuid)) {
+                    if (!LocationUtils.doesUserBelongToGivenLocations(user, accessibleLocationUuids)) {
                         if (!authenticatedUser.getUuid().equals(user.getUuid())) {
                             iterator.remove();
                         }
@@ -50,7 +50,7 @@ public class UserServiceInterceptorAdvice implements MethodInterceptor {
             }
             else if(object instanceof User) {
                 User user = (User) object;
-                if (!LocationUtils.doesUserBelongToGivenLocation(user, accessibleLocationUuid)) {
+                if (!LocationUtils.doesUserBelongToGivenLocations(user, accessibleLocationUuids)) {
                     if (!authenticatedUser.getUuid().equals(user.getUuid())) {
                         object = null;
                     }

@@ -11,6 +11,7 @@ package org.openmrs.module.locationbasedaccess.aop.interceptor;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Encounter;
@@ -42,23 +43,23 @@ public class EncounterServiceInterceptorAdvice implements MethodInterceptor {
             return object;
         }
 
-        String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
-        if (accessibleLocationUuid != null) {
+        List<String> accessibleLocationUuids = LocationUtils.getUserAccessibleLocationUuids(authenticatedUser);
+        if (accessibleLocationUuids != null) {
             if (object instanceof List) {
                 List<Encounter> encounterList = (List<Encounter>) object;
-                object = removeEncountersIfNotBelongToGivenLocation(encounterList, accessibleLocationUuid);
+                object = removeEncountersIfNotBelongToGivenLocations(encounterList, accessibleLocationUuids);
             } else if (object instanceof Map) {
                 Map<Integer, List<Encounter>> encounterMap = (Map<Integer, List<Encounter>>) object;
                 Iterator<Map.Entry<Integer, List<Encounter>>> mapIterator = encounterMap.entrySet().iterator();
                 while (mapIterator.hasNext()) {
                     Map.Entry<Integer, List<Encounter>> entry = mapIterator.next();
                     List<Encounter> encounterList = entry.getValue();
-                    entry.setValue(removeEncountersIfNotBelongToGivenLocation(encounterList, accessibleLocationUuid));
+                    entry.setValue(removeEncountersIfNotBelongToGivenLocations(encounterList, accessibleLocationUuids));
                     //TODO: remove the entry from the map, if the encounter list is empty and update the map index
                 }
                 object = encounterMap;
             } else if (object instanceof Encounter) {
-                if (!doesEncounterBelongToGivenLocation((Encounter) object, accessibleLocationUuid)) {
+                if (!doesEncounterBelongToGivenLocations((Encounter) object, accessibleLocationUuids)) {
                     object = null;
                 }
             }
@@ -78,22 +79,22 @@ public class EncounterServiceInterceptorAdvice implements MethodInterceptor {
         return object;
     }
 
-    private List<Encounter> removeEncountersIfNotBelongToGivenLocation(List<Encounter> encounterList, String sessionLocationUuid) {
+    private List<Encounter> removeEncountersIfNotBelongToGivenLocations(List<Encounter> encounterList, List<String> sessionLocationUuids) {
         for (Iterator<Encounter> iterator = encounterList.iterator(); iterator.hasNext(); ) {
             Encounter thisEncounter = iterator.next();
-            if(!doesEncounterBelongToGivenLocation(thisEncounter, sessionLocationUuid)) {
+            if(!doesEncounterBelongToGivenLocations(thisEncounter, sessionLocationUuids)) {
                 iterator.remove();
             }
         }
         return encounterList;
     }
 
-    public static Boolean doesEncounterBelongToGivenLocation(Encounter encounter, String sessionLocationUuid) {
+    public static Boolean doesEncounterBelongToGivenLocations(Encounter encounter, List<String> sessionLocationUuids) {
         Location location = encounter.getLocation();
         String encounterAccessType = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.ENCOUNTER_RESTRICTION_TYPE_ENCOUNTER_LOCATION);
         if(LocationBasedAccessConstants.ENCOUNTER_RESTRICTION_TYPE_PATIENT_LOCATION ==encounterAccessType) {
             location = LocationUtils.getPersonLocation(encounter.getPatient());
         }
-        return (location != null && LocationUtils.compare(location.getUuid(), sessionLocationUuid));
+        return (location != null && StringUtils.isNotBlank(location.getUuid()) && sessionLocationUuids.contains(location.getUuid()));
     }
 }

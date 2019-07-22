@@ -39,17 +39,17 @@ public class PersonServiceInterceptorAdvice  implements MethodInterceptor {
         if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
             return object;
         }
-        String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
+        List<String> accessibleLocationUuids = LocationUtils.getUserAccessibleLocationUuids(authenticatedUser);
         String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
         if (StringUtils.isNotBlank(locationAttributeUuid) && (invocation.getMethod().getName() != "getPersonAttributeTypeByUuid")) {
             final PersonAttributeType personAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(locationAttributeUuid);
-            if (accessibleLocationUuid != null) {
+            if (accessibleLocationUuids != null) {
                 if(object instanceof List) {
                     List<Person> personList = (List<Person>) object;
                     for (Iterator<Person> iterator = personList.iterator(); iterator.hasNext(); ) {
                         Person thisPerson = iterator.next();
-                        if (!LocationUtils.doesPersonBelongToGivenLocation(thisPerson, personAttributeType, accessibleLocationUuid)) {
-                            if (!LocationUtils.doesUsersForPersonBelongToGivenLocation(thisPerson, accessibleLocationUuid)) {
+                        if (!LocationUtils.doesPersonBelongToGivenLocations(thisPerson, personAttributeType, accessibleLocationUuids)) {
+                            if (!LocationUtils.doesUsersForPersonBelongToGivenLocations(thisPerson, accessibleLocationUuids)) {
                                 if (!thisPerson.getUuid().equals(authenticatedUser.getPerson().getUuid())) {
                                     iterator.remove();
                                 }
@@ -60,8 +60,8 @@ public class PersonServiceInterceptorAdvice  implements MethodInterceptor {
                 }
                 else if(object instanceof Person) {
                     Person thisPerson = (Person)object;
-                    if (!LocationUtils.doesPersonBelongToGivenLocation(thisPerson, personAttributeType, accessibleLocationUuid)) {
-                        if (!LocationUtils.doesUsersForPersonBelongToGivenLocation(thisPerson, accessibleLocationUuid)) {
+                    if (!LocationUtils.doesPersonBelongToGivenLocations(thisPerson, personAttributeType, accessibleLocationUuids)) {
+                        if (!LocationUtils.doesUsersForPersonBelongToGivenLocations(thisPerson, accessibleLocationUuids)) {
                             if (!thisPerson.getUuid().equals(authenticatedUser.getPerson().getUuid())) {
                                 object = null;
                             }
