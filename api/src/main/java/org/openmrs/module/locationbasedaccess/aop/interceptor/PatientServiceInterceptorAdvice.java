@@ -39,22 +39,22 @@ public class PatientServiceInterceptorAdvice implements MethodInterceptor {
             return object;
         }
 
-        String accessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(authenticatedUser);
+        List<String> accessibleLocationUuids = LocationUtils.getUserAccessibleLocationUuids(authenticatedUser);
         String locationAttributeUuid = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME);
         if (StringUtils.isNotBlank(locationAttributeUuid)) {
             final PersonAttributeType personAttributeType = Context.getPersonService().getPersonAttributeTypeByUuid(locationAttributeUuid);
-            if (accessibleLocationUuid != null) {
+            if (accessibleLocationUuids != null) {
                 if(object instanceof List) {
                     List<Patient> patientList = (List<Patient>) object;
                     for (Iterator<Patient> iterator = patientList.iterator(); iterator.hasNext(); ) {
-                        if(!LocationUtils.doesPersonBelongToGivenLocation(iterator.next().getPerson(), personAttributeType, accessibleLocationUuid)) {
+                        if(!LocationUtils.doesPersonBelongToGivenLocations(iterator.next().getPerson(), personAttributeType, accessibleLocationUuids)) {
                             iterator.remove();
                         }
                     }
                     object = patientList;
                 }
                 else if(object instanceof Patient) {
-                    if(!LocationUtils.doesPersonBelongToGivenLocation(((Patient)object).getPerson(), personAttributeType, accessibleLocationUuid)) {
+                    if(!LocationUtils.doesPersonBelongToGivenLocations(((Patient)object).getPerson(), personAttributeType, accessibleLocationUuids)) {
                         object = null;
                     }
                 }

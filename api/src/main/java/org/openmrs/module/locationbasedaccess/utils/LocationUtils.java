@@ -18,6 +18,8 @@ import org.openmrs.PersonAttributeType;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
+
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,40 +38,44 @@ public class LocationUtils {
         return null;
     }
 
-    public static Boolean doesPersonBelongToGivenLocation(Person person, PersonAttributeType personAttributeType, String sessionLocationUuid) {
+    public static Boolean doesPersonBelongToGivenLocations(Person person, PersonAttributeType personAttributeType, List<String> sessionLocationsLists) {
         PersonAttribute personAttribute = person.getAttribute(personAttributeType);
-        return (personAttribute != null && compare(personAttribute.getValue(), sessionLocationUuid));
+        return (personAttribute != null && sessionLocationsLists.contains(personAttribute.getValue()));
     }
 
-    public static Boolean doesUserBelongToGivenLocation(User user, String sessionLocationUuid) {
-        String userLocationProperty = user.getUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
-        return (userLocationProperty != null && compare(userLocationProperty, sessionLocationUuid));
+    public static Boolean doesUserBelongToGivenLocations(User user, List<String> sessionLocationsLists){
+        List<String> accessibleLocationsList = getUserAccessibleLocationUuids(user);
+        if(accessibleLocationsList != null ){
+            for(String location : accessibleLocationsList ){
+                if(!StringUtils.isBlank(location) && sessionLocationsLists.contains(location)){
+                    return true;
+                }
+            }
+        }
+        return false ;
     }
 
-    public static Boolean doesUsersForPersonBelongToGivenLocation(Person person, String sessionLocationUuid) {
+    public static Boolean doesUsersForPersonBelongToGivenLocations(Person person, List<String> sessionLocationsLists) {
         List<User> userList = Context.getUserService().getUsersByPerson(person, false);
         for (Iterator<User> iterator = userList.iterator(); iterator.hasNext(); ) {
-            if(LocationUtils.doesUserBelongToGivenLocation(iterator.next(), sessionLocationUuid)) {
+            if(LocationUtils.doesUserBelongToGivenLocations(iterator.next(), sessionLocationsLists)) {
                 return true;
             }
         }
         return false;
     }
 
-    public static Boolean compare(String value1, String value2) {
-        return (StringUtils.isNotBlank(value1) && StringUtils.isNotBlank(value2)) && value1.equals(value2);
-    }
-
     /**
-     * Used to get the accessible location for the user. It will first get from the user property. if the user
+     * Used to get the accessible locations for the user. It will first get from the user property. if the user
      * property is not available, then check for the session location. If both are not available then return null.
      * @param authenticatedUser Authenticated user
-     * @return accessible Location uuid
+     * @return accessibleLocationUuids the list of accessible Locations uuid
      */
-    public static String getUserAccessibleLocationUuid(User authenticatedUser) {
+    public static List <String> getUserAccessibleLocationUuids(User authenticatedUser) {
         if (authenticatedUser == null) {
             return null;
         }
+        List <String> accessibleLocationUuids ;
         String accessibleLocationUuid = authenticatedUser.getUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
         if (StringUtils.isBlank(accessibleLocationUuid)) {
             Integer sessionLocationId = Context.getUserContext().getLocationId();
@@ -77,7 +83,8 @@ public class LocationUtils {
                 accessibleLocationUuid = Context.getLocationService().getLocation(sessionLocationId).getUuid();
             }
         }
-        return accessibleLocationUuid;
+        accessibleLocationUuids = Arrays.asList(accessibleLocationUuid.split(","));
+        return accessibleLocationUuids;
     }
 
     public static void createPersonAttributeTypeForLocation() {

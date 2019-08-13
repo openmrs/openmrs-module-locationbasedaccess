@@ -73,100 +73,18 @@ public class LocationUtilsTest extends BaseModuleContextSensitiveTest {
 	}
 
 	@Test
-	public void doesPersonBelongToGivenLocation_shouldBeTrueIfPersonBelongToSameLocation() {
-		Person person2 = personService.getPerson(DEMO_PERSON2_ID);
-		PersonAttributeType personAttributeType = personService.getPersonAttributeType(DEMO_PERSONATTRIBUTE1_ID);
-		assertNull(person2.getAttribute(personAttributeType));
-		Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
-		PersonAttribute personAttribute = new PersonAttribute(personAttributeType, location1.getUuid());
-		person2.addAttribute(personAttribute);
-		String sessionLocationUuid = location1.getUuid();
-		Boolean aBoolean = LocationUtils.doesPersonBelongToGivenLocation(person2, personAttributeType, sessionLocationUuid);
-		assertTrue(aBoolean);
-	}
-
-	@Test
-	public void doesPersonBelongToGivenLocation_shouldBeFalseIfPersonNotBelongToSameLocation() {
-		Person person2 = personService.getPerson(DEMO_PERSON2_ID);
-		PersonAttributeType personAttributeType = personService.getPersonAttributeType(DEMO_PERSONATTRIBUTE1_ID);
-		assertNull(person2.getAttribute(personAttributeType));
-		String sessionLocationUuid1 = "ef93c695-ac43-450a-93f8-4b2b4d50a3c9";
-		Boolean aBoolean1 = LocationUtils.doesPersonBelongToGivenLocation(person2, personAttributeType,
-				sessionLocationUuid1);
-		assertFalse(aBoolean1);
-		Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
-		Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
-		assertNotEquals(location1.getUuid(), location2.getUuid());
-		PersonAttribute personAttribute = new PersonAttribute(personAttributeType, location1.getUuid());
-		person2.addAttribute(personAttribute);
-		String sessionLocationUuid2 = location2.getUuid();
-		Boolean aBoolean2 = LocationUtils.doesPersonBelongToGivenLocation(person2, personAttributeType,
-				sessionLocationUuid2);
-		assertFalse(aBoolean2);
-	}
-
-	@Test
-	public void doesUserBelongToGivenLocation_shouldBeTrueIfUserBelongToSameLocation() {
-		User user1 = userService.getUser(DEMO_USER1_ID);
-		assertEquals(0, user1.getUserProperties().size());
-		Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
-		user1.setUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME, location1.getUuid());
-		String sessionLocationUuid = location1.getUuid();
-		Boolean aBoolean = LocationUtils.doesUserBelongToGivenLocation(user1, sessionLocationUuid);
-		assertTrue(aBoolean);
-	}
-
-	@Test
-	public void doesUserBelongToGivenLocation_shouldBeFalseIfUserNotBelongToSameLocation() {
-		User user1 = userService.getUser(DEMO_USER1_ID);
-		assertEquals(0, user1.getUserProperties().size());
-		Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
-		String sessionLocationUuid1 = location1.getUuid();
-		Boolean aBoolean1 = LocationUtils.doesUserBelongToGivenLocation(user1, sessionLocationUuid1);
-		assertFalse(aBoolean1);
-		Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
-		assertNotEquals(location1.getUuid(), location2.getUuid());
-		user1.setUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME, location1.getUuid());
-		String sessionLocationUuid2 = location2.getUuid();
-		Boolean aBoolean2 = LocationUtils.doesUserBelongToGivenLocation(user1, sessionLocationUuid2);
-		assertFalse(aBoolean2);
-	}
-
-	@Test
-	public void doesUsersForPersonBelongToGivenLocation_shouldBeTrueIfAnyUserOfPersonBelongToGivenLocation() {
-		Person person5 = personService.getPerson(DEMO_PERSON5_ID);
-		List<User> users = userService.getUsersByPerson(person5, false);
-		assertNotNull(users);
-		User user0 = users.get(0);
-		String sessionLocationUuid = user0.getUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
-		Boolean aBoolean1 = LocationUtils.doesUsersForPersonBelongToGivenLocation(person5, sessionLocationUuid);
-		assertTrue(aBoolean1);
-	}
-
-	@Test
-	public void doesUsersForPersonBelongToGivenLocation_shouldBeFalseIfNoUserOfPersonBelongToGivenLocation() {
-		Person person6 = personService.getPerson(DEMO_PERSON6_ID);
-		List<User> userList = userService.getUsersByPerson(person6, false);
-		assertNotNull(userList);
-		Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
-		for (Iterator<User> iterator = userList.iterator(); iterator.hasNext(); ) {
-			User user = iterator.next();
-			assertNotEquals(user.getUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME),
-					location1.getUuid());
-		}
-		Boolean aBoolean1 = LocationUtils.doesUsersForPersonBelongToGivenLocation(person6, location1.getUuid());
-		assertFalse(aBoolean1);
-	}
-
-	@Test
 	public void getUserAccessibleLocationUuid_shouldReturnAccessibleLocationUuid() {
 		User user1 = userService.getUser(DEMO_USER1_ID);
 		assertEquals(0, user1.getUserProperties().size());
 		Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
-		user1.setUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME, location1.getUuid());
+		Location location2 = locationService.getLocation(DEMO_LOCATION2_ID);
+		String locations = location1.getUuid()+","+location2.getUuid();
+		user1.setUserProperty(LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME, locations);
 		String userLocationUuid = location1.getUuid();
-		String userAccessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(user1);
-		assertEquals(userLocationUuid, userAccessibleLocationUuid);
+		List<String> userAccessibleLocationUuids = LocationUtils.getUserAccessibleLocationUuids(user1);
+		assertEquals(2, userAccessibleLocationUuids.size());
+		assertEquals(location1.getUuid(), userAccessibleLocationUuids.get(0));
+		assertEquals(location2.getUuid(), userAccessibleLocationUuids.get(1));
 	}
 
 	@Test
@@ -175,19 +93,20 @@ public class LocationUtilsTest extends BaseModuleContextSensitiveTest {
 		assertEquals(0, user1.getUserProperties().size());
 		Location location1 = locationService.getLocation(DEMO_LOCATION1_ID);
 		Context.getUserContext().setLocationId(location1.getLocationId());
-		String sessionLocationUuid = location1.getUuid();
-		String userAccessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(user1);
-		assertEquals(sessionLocationUuid, userAccessibleLocationUuid);
+		List<String> userAccessibleLocationUuids = LocationUtils.getUserAccessibleLocationUuids(user1);
+		assertEquals(1, userAccessibleLocationUuids.size());
+		assertEquals(userAccessibleLocationUuids.get(0), location1.getUuid());
 	}
 
 	@Test
-	public void getUserAccessibleLocationUuid_shouldReturnEmptyStringIfNoSessionLocationUuidAndNoUserProperty() {
+	public void getUserAccessibleLocationUuid_shouldReturnEmptyListIfNoSessionLocationUuidAndNoUserProperty() {
 		User user1 = userService.getUser(DEMO_USER1_ID);
 		assertEquals(0, user1.getUserProperties().size());
 		Integer sessionLocationId = Context.getUserContext().getLocationId();
 		assertNull(sessionLocationId);
-		String userAccessibleLocationUuid = LocationUtils.getUserAccessibleLocationUuid(user1);
-		assertEquals("", userAccessibleLocationUuid);
+		List<String> userAccessibleLocationUuids = LocationUtils.getUserAccessibleLocationUuids(user1);
+		assertEquals(1,userAccessibleLocationUuids.size());
+		assertEquals("",userAccessibleLocationUuids.get(0));
 	}
 
 }

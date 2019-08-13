@@ -55,6 +55,12 @@
                 <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>appframework-api</artifactId>
+				<version>${appframeworkVersion}</version>
+				<scope>provided</scope>
+			</dependency>
         </dependencies>
     </dependencyManagement>
     
