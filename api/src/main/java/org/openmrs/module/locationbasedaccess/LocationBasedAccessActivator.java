@@ -53,8 +53,26 @@ public class LocationBasedAccessActivator extends BaseModuleActivator {
 			    LocationBasedAccessConstants.PERSONATTRIBUTETYPE_UUID);
 	    createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.REF_APP_LOCATION_USER_PROPERTY_NAME,
 			    LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
+	    createGlobalPropertyForEntityRestrictions();
 	    log.info("Location Based Access Control Module started");
     }
+
+	/**
+	 * Used to create global property for every entity whether to have Location Based
+	 * restrictions on it or not.global property with value true means to have the restriction
+	 */
+	private void createGlobalPropertyForEntityRestrictions() {
+    	createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.ENCOUNTER_RESTRICTION_GLOBAL_PROPERTY_NAME,
+			    LocationBasedAccessConstants.LOCATION_BASED_RESTRICTION_VALUE_TRUE);
+		createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.LOCATION_RESTRICTION_GLOBAL_PROPERTY_NAME,
+				LocationBasedAccessConstants.LOCATION_BASED_RESTRICTION_VALUE_TRUE);
+		createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.PATIENT_RESTRICTION_GLOBAL_PROPERTY_NAME,
+				LocationBasedAccessConstants.LOCATION_BASED_RESTRICTION_VALUE_TRUE);
+		createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.LOCATION_RESTRICTION_GLOBAL_PROPERTY_NAME,
+				LocationBasedAccessConstants.LOCATION_BASED_RESTRICTION_VALUE_TRUE);
+		createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.USER_RESTRICTION_GLOBAL_PROPERTY_NAME,
+				LocationBasedAccessConstants.LOCATION_BASED_RESTRICTION_VALUE_TRUE);
+	}
 
 	private void createGlobalPropertyForLocationAttribute(String key, String value) {
 		String locationUserPropertyName = Context.getAdministrationService().getGlobalProperty(key);

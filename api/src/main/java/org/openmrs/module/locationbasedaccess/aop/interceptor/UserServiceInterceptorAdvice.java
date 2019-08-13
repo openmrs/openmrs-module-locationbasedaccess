@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.Daemon;
+import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
 import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,7 +32,8 @@ public class UserServiceInterceptorAdvice implements MethodInterceptor {
             return null;
         }
         Object object = invocation.proceed();
-        if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
+        String lbacRestriction = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.USER_RESTRICTION_GLOBAL_PROPERTY_NAME);
+        if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()|| !(lbacRestriction.equals("true"))) {
             return object;
         }
         List<String> accessibleLocationUuids = LocationUtils.getUserAccessibleLocationUuids(authenticatedUser);

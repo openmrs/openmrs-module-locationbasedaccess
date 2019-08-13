@@ -17,6 +17,7 @@ import org.openmrs.Location;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.Daemon;
+import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
 import org.openmrs.module.locationbasedaccess.utils.LocationUtils;
 
 import java.lang.reflect.Method;
@@ -43,7 +44,8 @@ public class LocationServiceInterceptorAdvice implements MethodInterceptor {
             return object;
         }
         User authenticatedUser = Context.getAuthenticatedUser();
-        if (authenticatedUser != null && (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser())) {
+        String lbacRestriction = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.LOCATION_RESTRICTION_GLOBAL_PROPERTY_NAME);
+        if (authenticatedUser != null && (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser())|| !(lbacRestriction.equals("true"))) {
             return object;
         }
 

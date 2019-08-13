@@ -22,4 +22,11 @@ public class LocationBasedAccessConstants {
     public static final String PERSONATTRIBUTETYPE_FORMAT = "java.lang.String";
     public static final String PERSONATTRIBUTETYPE_UUID = "0a93cbc6-5d65-4886-8091-47a25d3df944";
 
+    public static final String PATIENT_RESTRICTION_GLOBAL_PROPERTY_NAME = "locationbasedaccess.access.patient";
+    public static final String LOCATION_RESTRICTION_GLOBAL_PROPERTY_NAME = "locationbasedaccess.access.location";
+    public static final String PERSON_RESTRICTION_GLOBAL_PROPERTY_NAME = "locationbasedaccess.access.person";
+    public static final String USER_RESTRICTION_GLOBAL_PROPERTY_NAME = "locationbasedaccess.access.user";
+    public static final String ENCOUNTER_RESTRICTION_GLOBAL_PROPERTY_NAME = "locationbasedaccess.access.encounter";
+    public static final String LOCATION_BASED_RESTRICTION_VALUE_TRUE = "true";
+
 }

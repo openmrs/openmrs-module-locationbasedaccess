@@ -39,7 +39,8 @@ public class EncounterServiceInterceptorAdvice implements MethodInterceptor {
         }
 
         Object object = invocation.proceed();
-        if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser()) {
+        String lbacRestriction = Context.getAdministrationService().getGlobalProperty(LocationBasedAccessConstants.ENCOUNTER_RESTRICTION_GLOBAL_PROPERTY_NAME);
+        if (Daemon.isDaemonUser(authenticatedUser) || authenticatedUser.isSuperUser() || !(lbacRestriction.equals("true"))) {
             return object;
         }
 
