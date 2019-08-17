@@ -64,7 +64,7 @@ public class LocationBasedAccessActivator extends BaseModuleActivator {
 	private void createGlobalPropertyForEntityRestrictions() {
     	createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.ENCOUNTER_RESTRICTION_GLOBAL_PROPERTY_NAME,
 			    LocationBasedAccessConstants.LOCATION_BASED_RESTRICTION_VALUE_TRUE);
-		createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.LOCATION_RESTRICTION_GLOBAL_PROPERTY_NAME,
+		createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.PERSON_RESTRICTION_GLOBAL_PROPERTY_NAME,
 				LocationBasedAccessConstants.LOCATION_BASED_RESTRICTION_VALUE_TRUE);
 		createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.PATIENT_RESTRICTION_GLOBAL_PROPERTY_NAME,
 				LocationBasedAccessConstants.LOCATION_BASED_RESTRICTION_VALUE_TRUE);
