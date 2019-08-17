@@ -6,3 +6,7 @@
 
 api/target
 omod/target
+
+owa/package-lock\.json
+
+owa/openmrs-module-locationbased\.zip

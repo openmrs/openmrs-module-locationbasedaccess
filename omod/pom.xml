@@ -122,6 +122,25 @@
 							<outputDirectory>${project.build.directory}/classes</outputDirectory>
 						</configuration>
 					</execution>
+					<execution>
+						<id>include-owa</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>${project.parent.groupId}</groupId>
+									<artifactId>${project.parent.artifactId}-owa</artifactId>
+									<version>${project.parent.version}</version>
+									<type>jar</type>
+									<destFileName>locationbasedaccesscontrol.owa</destFileName>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}/classes/web/module/owas</outputDirectory>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
