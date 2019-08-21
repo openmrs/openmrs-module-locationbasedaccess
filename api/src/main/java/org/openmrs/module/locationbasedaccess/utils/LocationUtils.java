@@ -15,11 +15,14 @@ import org.openmrs.Location;
 import org.openmrs.Person;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonAttributeType;
+import org.openmrs.Privilege;
 import org.openmrs.User;
+import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.locationbasedaccess.LocationBasedAccessConstants;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -84,6 +87,32 @@ public class LocationUtils {
             }
         }
         accessibleLocationUuids = Arrays.asList(accessibleLocationUuid.split(","));
+        return accessibleLocationUuids;
+    }
+
+    /**
+     * Used to get the accessible locations for the user. It will first get from the user property. if the user
+     * property is not available, then check for the locations having user privilege. If both are not available then return null.
+     * @param authenticatedUser Authenticated user
+     * @return accessible Location uuid
+     */
+    public static List<String> getUserAccessibleLocationUuidsWithUserPrivileges(User authenticatedUser) {
+        if (authenticatedUser == null) {
+            return null;
+        }
+        List<String> accessibleLocationUuids = new ArrayList<String>();
+        String accessibleLocationUuid = authenticatedUser.getUserProperty(
+                LocationBasedAccessConstants.LOCATION_USER_PROPERTY_NAME);
+        if (StringUtils.isBlank(accessibleLocationUuid)) {
+            List<Location> openMrsLocations = Context.getLocationService().getAllLocations();
+            for (Location location : openMrsLocations) {
+                if (authenticatedUser.hasPrivilege("LocationAccess " + location.getName())) {
+                    accessibleLocationUuids.add(location.getUuid());
+                }
+            }
+        } else {
+            accessibleLocationUuids = Arrays.asList(accessibleLocationUuid.split(","));
+        }
         return accessibleLocationUuids;
     }
 
