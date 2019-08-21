@@ -10,7 +10,12 @@
 
 package org.openmrs.module.locationbasedaccess;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.openmrs.Location;
+import org.openmrs.Privilege;
+import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +54,7 @@ public class LocationBasedAccessActivator extends BaseModuleActivator {
      */
     public void started() {
 		LocationUtils.createPersonAttributeTypeForLocation();
+	    generatePrivilegesForLocations();
 	    createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.LOCATION_ATTRIBUTE_GLOBAL_PROPERTY_NAME,
 			    LocationBasedAccessConstants.PERSONATTRIBUTETYPE_UUID);
 	    createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.REF_APP_LOCATION_USER_PROPERTY_NAME,
@@ -72,6 +78,16 @@ public class LocationBasedAccessActivator extends BaseModuleActivator {
 				LocationBasedAccessConstants.LOCATION_BASED_RESTRICTION_VALUE_TRUE);
 		createGlobalPropertyForLocationAttribute(LocationBasedAccessConstants.USER_RESTRICTION_GLOBAL_PROPERTY_NAME,
 				LocationBasedAccessConstants.LOCATION_BASED_RESTRICTION_VALUE_TRUE);
+	}
+
+	private void generatePrivilegesForLocations() {
+		UserService userService = Context.getUserService();
+		List<Location> openMrsLocations = Context.getLocationService().getAllLocations(false);
+		for (Location location : openMrsLocations) {
+			Privilege privilege = new Privilege("LocationAccess " + location.getName(),
+					"Able to view Entity with Location " + location.getName());
+			userService.savePrivilege(privilege);
+		}
 	}
 
 	private void createGlobalPropertyForLocationAttribute(String key, String value) {

@@ -47,6 +47,14 @@
     <privilege privilege="Get Visits" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f20"/>
     <role_privilege role="userRole" privilege="Get Visits"/>
 
+    <role role="LocationRole1" description="This is a test parent role" uuid="8de52b9e-e07d-4978-ba4a-a3828c13e499"/>
+    <privilege privilege="LocationAccess Test Location 1" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f3g"/>
+
+    <role role="LocationRole2" description="This is a test parent role" uuid="8de52b9e-e07d-4978-ba4a-a3828c13e498"/>
+    <privilege privilege="LocationAccess Test Location 2" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f3i"/>
+    <privilege privilege="Get Something" description="This is a test privilege" uuid="d979d066-15e6-467c-9d4b-cb575ef97f3j"/>
+
+
     <person person_id="6001" gender="M" dead="false" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="dc99369f-f88e-4d54-be56-100e1ff45cf1"/>
     <person_name person_name_id="6001" preferred="true" person_id="6001" given_name="User" middle_name="Without" family_name="accessLocation" creator="1" date_created="2005-01-01 00:00:00.0" voided="false" uuid="f5bbff8e-e53b-11de-8404-001e378eb671"/>
     <users user_id="6001" person_id="6001" system_id="6-7" username="username1" salt="3b293c5448d5e6a62a3db8734636bf185e95c9dc4d8e54d37e17073ec8046e8a566eb8046581f96a821bbe33f21d2fae28154343f0b59fedd2ed9e0d578ac6ae" password="8836e4c323e2f2df47ef5a1fcd599d8033e5daf66a414cc16faa20474df600acbecda9765fd7078b115e9f17662112eb6921e22826e8460e2a65b6e8bfd8abd4" secret_question="secret" secret_answer="cfd32f98c491f9f79803490923db520524e79fbfc885763421f8ad6440b04437405ecf5c73e7147ecd6f4d99080dd857a408218d0509305eb0fba22d7d2ad90d" creator="1" date_created="2008-08-15 15:57:09.0" changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason="" uuid="0bc18050-e132-11de-babe-001e378eb67f"/>
@@ -85,7 +93,5 @@
     <user_property user_id="6007" property="locationUuid" property_value="ef93c695-ac43-450a-93f8-4b2b4d50a3c9" />
     <user_role user_id="6007" role="userRole" />
     <users user_id="6008" person_id="6006" system_id="6-14" username="username6" salt="3b293c5448d5e6a62a3db8734636bf185e95c9dc4d8e54d37e17073ec8046e8a566eb8046581f96a821bbe33f21d2fae28154343f0b59fedd2ed9e0d578ac6ae" password="8836e4c323e2f2df47ef5a1fcd599d8033e5daf66a414cc16faa20474df600acbecda9765fd7078b115e9f17662112eb6921e22826e8460e2a65b6e8bfd8abd4" secret_question="secret" secret_answer="cfd32f98c491f9f79803490923db520524e79fbfc885763421f8ad6440b04437405ecf5c73e7147ecd6f4d99080dd857a408218d0509305eb0fba22d7d2ad90d" creator="1" date_created="2008-08-15 15:57:09.0" changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason="" uuid="0bc88050-e132-11de-babe-001e378eb67f"/>
-    <user_role user_id="6008" role="userRole" />
-    <user_property user_id="6008" property="locationUuid" property_value="ef93c695-ac43-450a-93f8-4b2b4d50a3c9" />
 
 </dataset>
