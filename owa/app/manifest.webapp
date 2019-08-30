@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "name": "locationbasedReport",
+  "description": "showing the reports of user, patinets and encounters",
+  "launch_path": "index.html",
+  "icons": {
+    "48": "/img/omrs-button.png"
+  },
+  "developer": {
+    "name": "vankineenitawrun",
+    "url": "https://github.com/vankineenitawrun/openmrs-owa-openmrs-module-locationbased"
+  },
+  "default_locale": "en",
+    "activities": {
+      "openmrs": {
+        "href": "*"
+      }
+    }
+}

@@ -38,6 +38,7 @@
 
 	<modules>
 		<module>api</module>
+		<module>owa</module>
 		<module>omod</module>
 	</modules>
 
