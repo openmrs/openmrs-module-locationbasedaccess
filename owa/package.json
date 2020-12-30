@@ -7,8 +7,8 @@
     "url": "https://github.com/vankineenitawrun/openmrs-owa-openmrs-module-locationbased"
   },
   "engines": {
-    "npm": "^4.0.5",
-    "node": "^7.4.0"
+    "npm": "^6.13.4",
+    "node": "^12.16.0"
   },
   "eslintConfig": {
     "plugins": [
