@@ -86,7 +86,9 @@ public class LocationBasedAccessActivator extends BaseModuleActivator {
 		for (Location location : openMrsLocations) {
 			Privilege privilege = new Privilege("LocationAccess " + location.getName(),
 					"Able to view Entity with Location " + location.getName());
-			userService.savePrivilege(privilege);
+			if (userService.getPrivilege(privilege.getPrivilege()) == null) {
+				userService.savePrivilege(privilege);
+			}
 		}
 	}
 
